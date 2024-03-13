@@ -1,3 +1,5 @@
+import json
+
 class Login:
     def __init__(self, 
                 lid, 
@@ -8,4 +10,14 @@ class Login:
         self.username = username
         self.password = password
 
+    # Map JSON string to Login object
+    @classmethod
+    def create_login(cls, json_string):
+
+        if not json_string:
+            return None
+
+        json_object = json.codec
+
     
+
