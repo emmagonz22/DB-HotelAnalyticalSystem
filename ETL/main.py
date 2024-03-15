@@ -17,7 +17,7 @@ if __name__ == "__main__":
     # load room description
 
     # load room
-
+    etl_db.load_room_data()
     # load room unavailable
 
     # load client

@@ -98,5 +98,3 @@ def load_room_unavailable_csv():
 
     conn.commit()
     db.disconnect()
-
-load_room_unavailable_csv()
