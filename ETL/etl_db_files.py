@@ -1,16 +1,11 @@
 import sqlite3
 from database import db, get_connection, get_cursor
 from collections import defaultdict
+import pandas as pd
+
 def connect_sqlite_db(path):
     return sqlite3.connect(path);
 
-# Room data (Hashmap is used to access the data with room id to transform data) (For transformed data)
-
-room_dict_data = defaultdict()
-
-# Reservation data (Hashmap is used to access the data with reserve id to transform data) (For transformed data)
-
-reserve_dict_data = defaultdict()
 
 """
     Extract the data from the SQLite db with table reserve
@@ -54,25 +49,15 @@ def extract_db_data_room():
 
 
 # Transform
-## All the data from both tables
-room_data = extract_db_data_room()
-reserve_data = extract_db_data_reservation()
 
-def transform_room_data():
-    for row in room_data: 
-       room_data[row[0]] = row
-def transform_reserve_data():
-    # Needs to load the RoomDescription data to verify that "Clients can only reserve a room with equal or less gests than the room's capacity"
-    for row in reserve_data:
-        # Verify if the price is correct? rprice(room) * (number_of_days)[end_date - start date] (RoomUnavailable)?
-        # Verify for valid payment method 
-        if row[4] in ["cash", "check", "credit card", "debit card", "pear pay"]: 
-            # add row id as key and entire row as value
-            reserve_dict_data[row[0]] = row
+## Room data (Panda data frame is used to access the data with room id to transform data) (For transformed data)
+room_column = ["rid","hid","rdid","rprice"]
+room_data = pd.DataFrame(extract_db_data_room(), columns=room_column)
+## Reservation data (Panda dataframe is used to access the data with reserve id to transform data) (For transformed data)
+reserve_column = ["reid","ruid","clid","total_cost", "payments", "guests"]
+reserve_data = pd.DataFrame(extract_db_data_reservation(), columns=reserve_column)
 
-#transform call 
-transform_room_data()
-transform_reserve_data()
+reserve_data = reserve_data[ reserve_data["payments"].isin(["cash", "check", "credit card", "debit card", "pear pay"]) ]
 
 # Load
 def load_room_data():
@@ -80,8 +65,8 @@ def load_room_data():
     conn = get_connection()
     cur = get_cursor()
     
-    for row in room_dict_data.values():
-        cur.execute('INSERT INTO reserve (rid, hid, rdid, rprice) VALUES (%s, %s, %s, %s);', row)
+    for row in room_data.values:
+        cur.execute('INSERT INTO room (rid, hid, rdid, rprice) VALUES (%s, %s, %s, %s);', row)
 
     conn.commit()
     db.disconnect()
@@ -93,18 +78,15 @@ def load_reservation_data():
     cur = get_cursor()
     data = extract_db_data_reservation()
 
-    for row in reserve_dict_data.values():
-        # Verify for valid payment method
-        if row[4] not in ["cash", "check", "credit card", "debit card", "pear pay"]: 
-            print("Invalid row", row)
-        ## Compare with room capacity using id
-        else:
-            print("Inserting: ", row)
-            # add error handling
-            cur.execute('INSERT INTO reserve (reid, ruid, clid, total_cost, payments, guests) VALUES (%s, %s, %s, %s, %s, %s);', row)
+    for row in reserve_data.values:
+        print("Inserting: ", row)
+        # add error handling
+        cur.execute('INSERT INTO reserve (reid, ruid, clid, total_cost, payments, guests) VALUES (%s, %s, %s, %s, %s, %s);', row)
 
     conn.commit()
     db.disconnect()
 
 if __name__ == "__main__":
-    load_reservation_data()
+    #load_reservation_data()
+    #load_room_data()
+    pass
