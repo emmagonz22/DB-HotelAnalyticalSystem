@@ -1,4 +1,5 @@
 import pandas as pd
+from database import db, get_connection, get_cursor
 
 def extract_xlsx(path):
     return pd.read_excel(path)
@@ -15,10 +16,38 @@ def trasnform_login_data(unfiltered_data):
     return filtered_data 
 
 # Load
-def load_xlsx():
+def load_chain_xlsx():
+    db.connect()
+    conn = get_connection()
+    cur = get_cursor()
 
-    unfiltered_chain_data = extract_xlsx("../dataset/Phase#1_data/chain.xlsx")
-    # unfiltered__login_data = extract_xlsx("./dataset/Phase#1_data/login.xlsx")
+    unfiltered_chain_data = extract_xlsx("./dataset/Phase#1_data/chain.xlsx")
     filtered_chain_data = trasnform_chain_data(unfiltered_chain_data)
-    # filtered_login_data = trasnform_login_data(unfiltered__login_data)
+
+    for lid, cname, sprinmkup, summermkup, fallmkup, wintermkup in filtered_chain_data.values:
+        try:
+            cur.execute("INSERT into chains (lid, cname, sprinmkup, summermkup, fallmkup, wintermkup) VALUES (%s, %s, %s, %s, %s, %s);", (lid, cname, sprinmkup, summermkup, fallmkup, wintermkup ))
+        except Exception as e:
+            print("Inserting error:", e)
+            pass
+
+    conn.commit()
+    db.disconnect()
     
+def load_login_xlsx():
+    db.connect()
+    conn = get_connection()
+    cur = get_cursor()
+
+    unfiltered__login_data = extract_xlsx("./dataset/Phase#1_data/login.xlsx")
+    filtered_login_data = trasnform_login_data(unfiltered__login_data)
+
+    for lid, eid, username, password in filtered_login_data.values:
+        try:
+            cur.execute("INSERT into login (lid, eid, username, password) VALUES (%s, %s, %s, %s);", (lid, eid, username, password))
+        except Exception as e:
+            print("Inserting error:", e)
+            pass
+
+    conn.commit()
+    db.disconnect()
