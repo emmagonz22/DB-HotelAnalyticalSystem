@@ -70,6 +70,9 @@ def transform_reserve_data():
             # add row id as key and entire row as value
             reserve_dict_data[row[0]] = row
 
+#transform call 
+transform_room_data()
+transform_reserve_data()
 
 # Load
 def load_room_data():
@@ -96,6 +99,8 @@ def load_reservation_data():
             print("Invalid row", row)
         ## Compare with room capacity using id
         else:
+            print("Inserting: ", row)
+            # add error handling
             cur.execute('INSERT INTO reserve (reid, ruid, clid, total_cost, payments, guests) VALUES (%s, %s, %s, %s, %s, %s);', row)
 
     conn.commit()
