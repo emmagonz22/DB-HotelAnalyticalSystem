@@ -17,7 +17,7 @@ def trasnform_login_data(unfiltered_data):
 # Load
 def load_xlsx():
 
-    unfiltered_chain_data = extract_xlsx("./dataset/Phase#1_data/chain.xlsx")
+    unfiltered_chain_data = extract_xlsx("../dataset/Phase#1_data/chain.xlsx")
     # unfiltered__login_data = extract_xlsx("./dataset/Phase#1_data/login.xlsx")
     filtered_chain_data = trasnform_chain_data(unfiltered_chain_data)
     # filtered_login_data = trasnform_login_data(unfiltered__login_data)
