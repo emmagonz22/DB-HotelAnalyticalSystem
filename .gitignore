@@ -1,2 +1,4 @@
 ETL/venv
 backend/.vnv
+ETL/__pycache__
+ETL/database/__pycache__
