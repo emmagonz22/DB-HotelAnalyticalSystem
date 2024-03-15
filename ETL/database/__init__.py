@@ -12,4 +12,13 @@ db = database(host,
             dbname,
             port)
 
-db.connect()
+def get_connection():
+    if db.conn:
+        return db.conn
+    print(f"Database not connected")
+        
+def get_cursor():
+    if db.conn:
+        return db.conn.cursor()
+    print(f"Database not connected")
+        
