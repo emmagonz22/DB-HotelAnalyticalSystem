@@ -1,5 +1,6 @@
 import sqlite3
 from database import db, get_connection, get_cursor
+from collections import defaultdict
 import pandas as pd
 
 def connect_sqlite_db(path):
@@ -64,9 +65,16 @@ def load_room_data():
     conn = get_connection()
     cur = get_cursor()
     
-    for row in room_data.values:
-        cur.execute('INSERT INTO room (rid, hid, rdid, rprice) VALUES (%s, %s, %s, %s);', row)
+    if conn is None:
+        print("Error conecting to the database")
+        return
 
+    for row in room_data.values:
+        try:
+            cur.execute('INSERT INTO room (rid, hid, rdid, rprice) VALUES (%s, %s, %s, %s);', row)
+        except Exception as e:
+            print("Error inserting:", e)
+            pass
     conn.commit()
     db.disconnect()
 
@@ -75,18 +83,18 @@ def load_reservation_data():
     db.connect()
     conn = get_connection()
     cur = get_cursor()
-    data = extract_db_data_reservation()
+
+    if conn is None:
+        print("Error conecting to the database")
+        return
 
     for row in reserve_data.values:
         try: 
             print("Inserting: ", row)
             cur.execute('INSERT INTO reserve (reid, ruid, clid, total_cost, payments, guests) VALUES (%s, %s, %s, %s, %s, %s);', row)
-        except:
+        except Exception as e:
+            print("Error inserting:", e)
             pass
     conn.commit()
     db.disconnect()
 
-if __name__ == "__main__":
-    #load_reservation_data()
-    #load_room_data()
-    pass
