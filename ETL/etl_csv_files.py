@@ -1,7 +1,5 @@
 import pandas as pd
 from database import db, get_connection, get_cursor
-
-
 # Extract
 def extract_csv(path):
     return pd.read_csv(path)
@@ -13,7 +11,6 @@ def transform_hotel_csv(unfiltered_data):
                                                     'hcity': 'city'})
     filtered_data = renamed_data.dropna()
     return filtered_data
-
 # Load
 def load_hotel_csv():
     db.connect()
@@ -35,3 +32,5 @@ def load_hotel_csv():
 
     conn.commit()
     db.disconnect()
+
+load_hotel_csv()

@@ -1,6 +1,5 @@
 import sqlite3
 from database import db, get_connection, get_cursor
-from collections import defaultdict
 import pandas as pd
 
 def connect_sqlite_db(path):
@@ -79,10 +78,11 @@ def load_reservation_data():
     data = extract_db_data_reservation()
 
     for row in reserve_data.values:
-        print("Inserting: ", row)
-        # add error handling
-        cur.execute('INSERT INTO reserve (reid, ruid, clid, total_cost, payments, guests) VALUES (%s, %s, %s, %s, %s, %s);', row)
-
+        try: 
+            print("Inserting: ", row)
+            cur.execute('INSERT INTO reserve (reid, ruid, clid, total_cost, payments, guests) VALUES (%s, %s, %s, %s, %s, %s);', row)
+        except:
+            pass
     conn.commit()
     db.disconnect()
 
