@@ -11,7 +11,7 @@ def connect_sqlite_db(path):
     Extract the data from the SQLite db with table reserve
 """
 def extract_db_data_reservation():
-    conn = connect_sqlite_db("../dataset/Phase#1_data/reservations.db")
+    conn = connect_sqlite_db("./dataset/Phase#1_data/reservations.db")
     cur = conn.cursor()
     # cur.execute("SELECT name FROM sqlite_master WHERE type='table';") reserve table -> Display all table
     ''' cur.execute(f"PRAGMA table_info(reserve);")  -> Display columns from table 
@@ -31,7 +31,7 @@ def extract_db_data_reservation():
     Extract the data from the SQLite db with table rooms
 """
 def extract_db_data_room():
-    conn = connect_sqlite_db("../dataset/Phase#1_data/rooms.db")
+    conn = connect_sqlite_db("./dataset/Phase#1_data/rooms.db")
     cur = conn.cursor()
     # cur.execute("SELECT name FROM sqlite_master WHERE type='table';") Room table -> Display all table
     
@@ -61,7 +61,6 @@ reserve_data = reserve_data[ reserve_data["payments"].isin(["cash", "check", "cr
 
 # Load
 def load_room_data():
-    db.connect()
     conn = get_connection()
     cur = get_cursor()
     
@@ -72,15 +71,14 @@ def load_room_data():
     for row in room_data.values:
         try:
             cur.execute('INSERT INTO room (rid, hid, rdid, rprice) VALUES (%s, %s, %s, %s);', row)
+            conn.commit()
         except Exception as e:
             print("Error inserting:", e)
             pass
-    conn.commit()
-    db.disconnect()
+    print("All room data was inserted")
 
 
 def load_reservation_data():
-    db.connect()
     conn = get_connection()
     cur = get_cursor()
 
@@ -90,11 +88,11 @@ def load_reservation_data():
 
     for row in reserve_data.values:
         try: 
-            print("Inserting: ", row)
-            cur.execute('INSERT INTO reserve (reid, ruid, clid, total_cost, payments, guests) VALUES (%s, %s, %s, %s, %s, %s);', row)
+            cur.execute('INSERT INTO reserve (reid, ruid, clid, total_cost, payment, guests) VALUES (%s, %s, %s, %s, %s, %s);', row)
+            conn.commit()
         except Exception as e:
             print("Error inserting:", e)
             pass
-    conn.commit()
+    print("All reservation data was inserted")
     db.disconnect()
 

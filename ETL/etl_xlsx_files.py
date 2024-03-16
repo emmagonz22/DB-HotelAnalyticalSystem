@@ -24,18 +24,17 @@ def load_chain_xlsx():
     unfiltered_chain_data = extract_xlsx("./dataset/Phase#1_data/chain.xlsx")
     filtered_chain_data = trasnform_chain_data(unfiltered_chain_data)
 
-    for lid, cname, sprinmkup, summermkup, fallmkup, wintermkup in filtered_chain_data.values:
+    for chid, cname, springmkup, summermkup, fallmkup, wintermkup in filtered_chain_data.values:
         try:
-            cur.execute("INSERT into chains (lid, cname, sprinmkup, summermkup, fallmkup, wintermkup) VALUES (%s, %s, %s, %s, %s, %s);", (lid, cname, sprinmkup, summermkup, fallmkup, wintermkup ))
+            cur.execute("INSERT into chains (chid, cname, springmkup, summermkup, fallmkup, wintermkup) VALUES (%s, %s, %s, %s, %s, %s);", (chid, cname, springmkup, summermkup, fallmkup, wintermkup ))
+            conn.commit()
         except Exception as e:
             print("Inserting error:", e)
             pass
+    print("All chain data was inserted")
 
-    conn.commit()
-    db.disconnect()
     
 def load_login_xlsx():
-    db.connect()
     conn = get_connection()
     cur = get_cursor()
 
@@ -45,9 +44,8 @@ def load_login_xlsx():
     for lid, eid, username, password in filtered_login_data.values:
         try:
             cur.execute("INSERT into login (lid, eid, username, password) VALUES (%s, %s, %s, %s);", (lid, eid, username, password))
+            conn.commit()
         except Exception as e:
             print("Inserting error:", e)
             pass
-
-    conn.commit()
-    db.disconnect()
+    print("All login data was inserted")
