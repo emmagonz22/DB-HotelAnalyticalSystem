@@ -1,8 +1,8 @@
 from flask import Flask     # https://flask.palletsprojects.com/en/3.0.x/
 import logging              # https://docs.python.org/3/library/logging.html
-from ..config import config
+from .config import config
 
-loggin.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
 
 def create_app():
     # instance_relative_config is used to determine where the conguration files are stored, this is used for the local database files, configuration secrets, instance specific data
