@@ -3,6 +3,7 @@ import json
 class Login:
     def __init__(self, 
                 lid, 
+                eid,
                 username, 
                 password):
         self.lid = lid

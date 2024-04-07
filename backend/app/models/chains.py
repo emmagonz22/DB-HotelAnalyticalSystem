@@ -1,14 +1,10 @@
-class Chains:
-    def __init__(self, chid,
-                cname,
-                springmkup,
-                summermkup,
-                fallmkup,
-                wintermkup):
+from .baseDAO import BaseDAO
 
-        self.chid = chid
-        self.cname = cname
-        self.springmkup = springmkup
-        self.summermkup = summermkup
-        self.fallmkup = fallmkup
-        self.wintermkup = wintermkup
+class ChainsDAO(BaseDAO):
+    def getAllChains(self):
+        cur = self.conn.cursor()
+        cur.execute("SELECT chid, cname, springmkup, summermkup, fallmkup, wintermkup from chains;")
+        result = []
+        for row in cur:
+            result.append(dict(zip(["chid", "cname", "springmkup", "summermkup", "fallmkup", "wintermkup"], row)))
+        return result

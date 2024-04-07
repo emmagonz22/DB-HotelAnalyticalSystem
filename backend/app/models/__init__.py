@@ -1,6 +1,6 @@
 # imports the models for easy access
 
-from .chains import Chains
+from .chains import ChainsDAO
 from .client import Client
 from .employee import Employee
 from .hotel import Hotel

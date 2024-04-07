@@ -1,4 +1,7 @@
 ETL/venv
+backend/app/__pycache__
+backend/app/controller/__pycache__
+backend/app/models/__pycache__
 backend/.vnv
 backend/.venv
 ETL/__pycache__
