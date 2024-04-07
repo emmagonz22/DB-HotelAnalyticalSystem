@@ -82,7 +82,7 @@ def load_room_unavailable_csv():
     cur = get_cursor()
 
 
-    unfiltered_room_unavailable_data = extract_csv("./dataset/Phase#1_data/room_unavailable.csv")
+    unfiltered_room_unavailable_data = extract_csv("./dataset/Phase#1_data/roomunavailable.csv")
     filtered_room_unavailable_data = transform_room_unavailable_csv(unfiltered_room_unavailable_data)
     for ruid, rid, startdate, enddate in filtered_room_unavailable_data.values:
         try:
