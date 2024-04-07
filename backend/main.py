@@ -1,6 +1,7 @@
 from app import create_app
 from flask import request
 from app.controller.chains import BaseChains
+from app.controller.hotel import BaseHotel
 
 
 app = create_app()
@@ -13,6 +14,12 @@ def index(): # Temporary index endpoint
 def getAllChains():
     if request.method == 'GET':
         return BaseChains().getAllChains()
+    return "Not reachable!"
+
+@app.route('/hotel', methods=['GET'])
+def getAllHotel():
+    if request.method == 'GET':
+        return BaseHotel().getAllHotel()
     return "Not reachable!"
 
 if __name__ == "__main__":
