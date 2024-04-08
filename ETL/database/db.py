@@ -9,7 +9,7 @@ class database:
     def connect(self):
         if self.conn is None: # if conn is open this not going to connect until disconnected
             try:
-                self.conn = psycopg2.connect(self.uri)
+                self.conn = psycopg2.connect("dbname='hotelanalyticssystems' user='emmanuel' password='dbproject123456789' host='localhost' port='5432'")
                 print("Connected to the database")
             except psycopg2.DatabaseError as e:
                 print(f"Database connection failed: {e}")
