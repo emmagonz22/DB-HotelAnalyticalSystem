@@ -7,7 +7,7 @@ logging.basicConfig(level=logging.DEBUG)
 def create_app():
     # instance_relative_config is used to determine where the conguration files are stored, this is used for the local database files, configuration secrets, instance specific data
     app = Flask(__name__, instance_relative_config=True) 
-
+    app.json.sort_keys = False
     # Config file path (Optional Todo: create a config for test and another one for production)
     # app.config.from_pyfile('config.py', silent=True) To load from python file
     #app.config.from_object(config)  # to load config from class
