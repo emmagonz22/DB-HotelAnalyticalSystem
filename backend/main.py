@@ -1,10 +1,13 @@
 from app import create_app
 from flask import request
 from app.controller.chains import BaseChains
-from app.controller.employee import BaseEmployee
+
 
 
 app = create_app()
+
+#import .app.routes
+from app.routes import *
 
 @app.route('/')
 def index(): # Temporary index endpoint
@@ -24,6 +27,7 @@ def getChainsbyId(chid):
         return BaseChains().getChainsbyId(int(chid))
     return "Not reachable!"
 
+'''
 @app.route('/employee', methods=['GET', 'POST'])
 def getAllEmployee():
     if request.method == 'GET':
@@ -41,7 +45,7 @@ def getEmployeebyId(eid):
     elif request.method == 'PUT':
        return BaseEmployee().updateEmployeebyId(request.json)
     return "Not reachable!"
-
+'''
 if __name__ == "__main__":
   
     app.run()

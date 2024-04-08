@@ -5,9 +5,14 @@ from dotenv import load_dotenv
 from pathlib import Path
 
 
-dotenv_path = os.path.abspath("app/enviroment.env")
+dotenv_path = os.path.abspath("backend/app/enviroment.env")
+print(dotenv_path)
 load_dotenv(dotenv_path=dotenv_path)
-
+print( os.getenv('DATABASE'),
+        os.getenv('USER_DB'),
+        os.getenv('PASSWORD'),
+        os.getenv('HOST'),
+        os.getenv('PORT'))
 class BaseDAO:
 
     def __init__(self):
