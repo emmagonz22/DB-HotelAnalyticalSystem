@@ -2,8 +2,10 @@ ETL/venv
 backend/app/__pycache__
 backend/app/controller/__pycache__
 backend/app/models/__pycache__
+backend/app/routes/__pycache__
 backend/.vnv
 backend/.venv
 backend/venv
+backend/enviroment.env
 ETL/__pycache__
 ETL/database/__pycache__
