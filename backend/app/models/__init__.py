@@ -2,7 +2,7 @@
 
 from .chains import ChainsDAO
 from .client import Client
-from .employee import Employee
+from .employee import EmployeeDAO
 from .hotel import Hotel
 from .login import Login
 from .reserve import Reserve
