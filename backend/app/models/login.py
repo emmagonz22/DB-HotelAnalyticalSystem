@@ -1,24 +1,28 @@
 import json
 
-class Login:
-    def __init__(self, 
-                lid, 
-                eid,
-                username, 
-                password):
-        self.lid = lid
-        self.eid = eid
-        self.username = username
-        self.password = password
+class LoginDAO(BaseDAO):
 
-    # Map JSON string to Login object
-    @classmethod
-    def create_login(cls, json_string):
+    def getAllLogin():
+        cur = self.conn.cursor()
+        cur.execute("SELECT lid, eid, username, password from employee;")
+        result = []
+        for row in cur:
+            result.append(dict(zip(["lid", "eid", "username", "password"], row)))
+        return result
 
-        if not json_string:
-            return None
+    def getLoginbyId(id):
+        cur = self.conn.cursor()
+        cur.execute(f"SELECT lid, eid, username, password from employee WHERE lid = f{id} ;")
 
-        json_object = json.codec
+        login = zip(["lid", "eid", "username", "password"], cur)
 
+
+    def createLogin():
+        pass
     
+    def updateLoginbyId():
+        pass
+
+    def deleteLoginbyId():
+        pass
 
