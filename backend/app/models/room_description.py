@@ -63,11 +63,13 @@ class RoomDescriptionDAO(BaseDAO):
             self.conn.close()
             return str(e)
 
-        # Always needed
-        if (cur.rowcount == 0):
-            return "Room Description " + str(rdid) + " does not exist!"
-        result = dict(zip(["rdid", "rname", "rtype", "capacity", "ishandicap"], cur.fetchone()))
+        rows = cur.rowcount
+        info = cur.fetchone()
         self.conn.close()
+        # Always needed
+        if (rows == 0):
+            return "Room Description " + str(rdid) + " does not exist!"
+        result = dict(zip(["rdid", "rname", "rtype", "capacity", "ishandicap"], info))
         return result
     
     def createRoomDescription(self, data):
@@ -83,6 +85,7 @@ class RoomDescriptionDAO(BaseDAO):
                 res = cur.fetchone()[0]
             except UniqueViolation as e:
                 print("Retrying to insert into Room Description")
+                self.conn.commit()
             except Exception as e:
                 # Always needed
                 self.conn.rollback()
@@ -90,10 +93,9 @@ class RoomDescriptionDAO(BaseDAO):
                 return str(e)
             else:
                 break
-            finally:
-                self.conn.commit()
         result = dict(zip(["rdid", "rname", "rtype", "capacity", "ishandicap"], 
                           (res, data["rname"], data["rtype"], data["capacity"], data["ishandicap"])))
+        self.conn.commit()
         self.conn.close()
         return result
 
@@ -127,7 +129,7 @@ class RoomDescriptionDAO(BaseDAO):
             # Always needed
             self.conn.rollback()
             self.conn.close()
-            return 
+            return str(e)
         
         self.conn.commit()
         self.conn.close()
