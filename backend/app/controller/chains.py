@@ -5,28 +5,38 @@ class BaseChains:
     def getAllChains(self):
         model = ChainsDAO()
         result = model.getAllChains()
-        return jsonify(result)
+        if isinstance(result, dict):
+            return jsonify(result)
+        return jsonify(result), 404
 
     def getChainsbyId(self, chid):
         model = ChainsDAO()
         result = model.getChainsbyId(chid)
-        return jsonify(result)
+        if isinstance(result, dict):
+            return jsonify(result), 200
+        return jsonify(result), 404
 
     def createChain(self, json):
         model = ChainsDAO()
         result = model.createChain(json)
-        return jsonify(result)
+        if isinstance(result, dict):
+            return jsonify(result), 201
+        elif result.startswith("Invalid"):
+            return jsonify(result), 400
+        return jsonify(result), 404
 
     def deleteChainbyId(self, chid):
         model = ChainsDAO()
         result = model.deleteChainbyId(chid)
-        if result:
+        if result.startswith("Deleted"):
             return jsonify(result), 200 
-        return jsonify("Chain Not Found"), 404
+        return jsonify(result), 404
 
     def updateChainbyId(self, json):
         model = ChainsDAO()
         result = model.updateChainbyId(json)
-        if result:
-            return jsonify(result), 200 
-        return jsonify("Chain Not Found"), 404
+        if result.startswith("Updated"):
+            return jsonify(result), 200
+        elif result.startswith("Invalid"):
+            return jsonify(result), 400
+        return jsonify(result), 404
