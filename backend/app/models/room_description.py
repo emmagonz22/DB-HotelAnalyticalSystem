@@ -3,9 +3,13 @@ from psycopg2.errors import UniqueViolation
 
 class RoomDescriptionDAO(BaseDAO):
     # Validates input given by user
-    def validateData(self, json):
+    def validateData(self, json, action):
         try:
-            rdid = json["rdid"]
+            rdid = None
+            if action == "UPDATE":
+                rdid = json["rdid"]
+            elif action == "CREATE":
+                rdid = 0
             rname = json["rname"]
             rtype = json["rtype"]
             capacity = json["capacity"]
@@ -58,13 +62,17 @@ class RoomDescriptionDAO(BaseDAO):
             self.conn.rollback()
             self.conn.close()
             return str(e)
+
+        # Always needed
+        if (cur.rowcount == 0):
+            return "Room Description " + str(rdid) + " does not exist!"
         result = dict(zip(["rdid", "rname", "rtype", "capacity", "ishandicap"], cur.fetchone()))
         self.conn.close()
         return result
     
     def createRoomDescription(self, data):
         # Validation of data always needed
-        if not self.validateData(data):
+        if not self.validateData(data, "CREATE"):
             return "Invalid Parameters have been passed!"
         cur = self.conn.cursor()
         res = None
@@ -109,7 +117,7 @@ class RoomDescriptionDAO(BaseDAO):
         return "Deleted " + str(rdid)
     
     def updateRoomDescriptionbyId(self, data):
-        if not self.validateData(data):
+        if not self.validateData(data, "UPDATE"):
             return "Invalid parameters have been passed!"
         cur = self.conn.cursor()
         try:
