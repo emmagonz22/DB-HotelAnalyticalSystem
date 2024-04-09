@@ -6,6 +6,7 @@ logging.basicConfig(level=logging.DEBUG)
 def create_app():
     # instance_relative_config is used to determine where the conguration files are stored, this is used for the local database files, configuration secrets, instance specific data
     app = Flask(__name__, instance_relative_config=True) 
+    app.json.sort_keys = False
 
   
     # create end points with from the views
