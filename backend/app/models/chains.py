@@ -45,11 +45,13 @@ class ChainsDAO(BaseDAO):
             self.conn.close()
             return str(e)
 
-        # Always needed
-        if (cur.rowcount == 0):
-            return "Chain " + str(chid) + " does not exist!"
-        result = dict(zip(["chid", "cname", "springmkup", "summermkup", "fallmkup", "wintermkup"], cur.fetchone()))
+        rows = cur.rowcount
+        info = cur.fetchone()
         self.conn.close()
+        # Always needed
+        if (rows == 0):
+            return "Chain " + str(chid) + " does not exist!"
+        result = dict(zip(["chid", "cname", "springmkup", "summermkup", "fallmkup", "wintermkup"], info))
         return result
     
     def createChain(self, data):
@@ -65,6 +67,7 @@ class ChainsDAO(BaseDAO):
                 res = cur.fetchone()[0]
             except UniqueViolation as e:
                 print("Retrying to insert into Chains")
+                self.conn.commit()
             except Exception as e:
                 # Always needed
                 self.conn.rollback()
@@ -72,10 +75,9 @@ class ChainsDAO(BaseDAO):
                 return str(e)
             else:
                 break
-            finally:
-                self.conn.commit()
         result = dict(zip(["chid", "cname", "springmkup", "summermkup", "fallmkup", "wintermkup"], 
                           (res, data["cname"], data["springmkup"], data["summermkup"], data["fallmkup"], data["wintermkup"])))
+        self.conn.commit()
         self.conn.close()
         return result
 
@@ -89,8 +91,9 @@ class ChainsDAO(BaseDAO):
             self.conn.close()
             return str(e)
         self.conn.commit()
+        rows = cur.rowcount
         self.conn.close()
-        if (cur.rowcount == 0):
+        if (rows == 0):
             return "Chain " + str(chid) + " does not exist!"
         return "Deleted " + str(chid)
     
@@ -107,6 +110,11 @@ class ChainsDAO(BaseDAO):
             self.conn.rollback()
             self.conn.close()
             return str(e)
+
         self.conn.commit()
+        rows = cur.rowcount
         self.conn.close()
+        # Always needed
+        if (rows == 0):
+            return "Hotel " + str(data["chid"]) + " does not exist!"
         return "Updated " + str(data["chid"])
