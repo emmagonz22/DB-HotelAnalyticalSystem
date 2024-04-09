@@ -5,28 +5,39 @@ class BaseRoomDescription:
     def getAllRoomDescription(self):
         model = RoomDescriptionDAO()
         result = model.getAllRoomDescription()
-        return jsonify(result), 200
+        if isinstance(result, dict):
+            return jsonify(result), 200
+        return jsonify(result), 404
 
     def getRoomDescriptionbyId(self, rdid):
         model = RoomDescriptionDAO()
         result = model.getRoomDescriptionbyId(rdid)
-        return jsonify(result), 200
+        if isinstance(result, dict):
+            return jsonify(result), 200
+        return jsonify(result), 404
 
     def createRoomDescription(self, json):
         model = RoomDescriptionDAO()
         result = model.createRoomDescription(json)
-        return jsonify(result), 200
+        if isinstance(result, dict):
+            return jsonify(result), 201
+        elif result.startswith("Invalid"):
+            return jsonify(result), 400
+        return jsonify(result), 404
+    
 
     def deleteRoomDescriptionbyId(self, rdid):
         model = RoomDescriptionDAO()
         result = model.deleteRoomDescriptionbyId(rdid)
-        if result:
+        if result.startswith("Deleted"):
             return jsonify(result), 200 
-        return jsonify("Room Description Not Found"), 404
+        return jsonify(result), 404
 
     def updateRoomDescriptionbyId(self, json):
         model = RoomDescriptionDAO()
         result = model.updateRoomDescriptionbyId(json)
-        if result:
-            return jsonify(result), 200 
-        return jsonify("Room Description Not Found"), 404
+        if result.startswith("Updated"):
+            return jsonify(result), 200
+        elif result.startswith("Invalid"):
+            return jsonify(result), 400
+        return jsonify(result), 404
