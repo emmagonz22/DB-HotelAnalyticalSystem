@@ -13,7 +13,7 @@ def handleAllLogin():
     return "Not reachable!"
 
 @app.route('/login/<lid>', methods=['GET', 'PUT', 'DELETE'])
-def handleLoginbyId(eid):
+def handleLoginbyId(lid):
     if request.method == 'GET':
         return BaseLogin().getLoginbyId(int(lid))
     elif request.method == 'DELETE':
