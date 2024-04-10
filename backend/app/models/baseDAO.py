@@ -17,7 +17,8 @@ class BaseDAO:
             os.getenv('USER_DB'),
             os.getenv('PASSWORD'),
             os.getenv('HOST'),
-            os.getenv('PORT'))
+            os.getenv('PORT'),
+            os.getenv('PORT_P'))
         self.conn = psycopg2.connect(
             database=os.getenv('DATABASE'),
             user=os.getenv('USER_DB'),
