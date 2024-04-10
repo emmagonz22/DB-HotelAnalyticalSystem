@@ -191,7 +191,7 @@ def handlerTotalReservationRoomType(hid):
 
 @app.route('/hotel/<hid>/leastguests', methods=["GET",'POST'])
 def handlerTopThreeReservedLeastGuestToCapacityRatio(hid):
-    if request.method == "GET":
+    if request.method == "POST":
         return BaseLocalStatistic().obtainTopThreeRoomsReservedLeastGuestToCapacityRatio(hid)
 
     return "Not reachable!"
