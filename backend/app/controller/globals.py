@@ -3,32 +3,44 @@ from flask import jsonify
 
 class BaseGlobalStatistic:
 
-    def getTopThreeTotalRevenue(self):
+    def getTopThreeTotalRevenue(self, json):
         model = GlobalStatisticsDAO()
-        result = model.getTopThreeTotalRevenue()
-        return jsonify(result)
+        result = model.getTopThreeTotalRevenue(json)
+        if (isinstance(result, list)):
+            return jsonify(result), 200
+        return jsonify(result), 404
     
-    def getpercentageByPaymentMethod(self):
+    def getpercentageByPaymentMethod(self, json):
         model = GlobalStatisticsDAO()
-        result = model.getpercentageByPaymentMethod()
-        return jsonify(result)
+        result = model.getpercentageByPaymentMethod(json)
+        if (isinstance(result, list)):
+            return jsonify(result), 200
+        return jsonify(result), 404
 
-    def getTopThreeLeastRooms(self):
+    def getTopThreeLeastRooms(self, json):
         model = GlobalStatisticsDAO()
-        result = model.getTopThreeLeastRooms()
-        return jsonify(result)
+        result = model.getTopThreeLeastRooms(json)
+        if (isinstance(result, list)):
+            return jsonify(result), 200
+        return jsonify(result), 404
 
-    def getTopFiveHotelsMostCapacity(self):
+    def getTopFiveHotelsMostCapacity(self, json):
         model = GlobalStatisticsDAO()
-        result = model.getTopFiveHotelsMostCapacity()
-        return jsonify(result)
+        result = model.getTopFiveHotelsMostCapacity(json)
+        if (isinstance(result, list)):
+            return jsonify(result), 200
+        return jsonify(result), 404
     
-    def getTopTenByHotelReservation(self):
+    def getTopTenByHotelReservation(self, json):
         model = GlobalStatisticsDAO()
-        result = model.getTopTenByHotelReservation()
-        return jsonify(result)
+        result = model.getTopTenByHotelReservation(json)
+        if (isinstance(result, list)):
+            return jsonify(result), 200
+        return jsonify(result), 404
 
-    def getTopThreeMonthByChain(self):
+    def getTopThreeMonthByChain(self, json):
         model = GlobalStatisticsDAO()
-        result = model.getTopThreeMonthByChain()
-        return jsonify(result)
+        result = model.getTopThreeMonthByChain(json)
+        if (isinstance(result, list)):
+            return jsonify(result), 200
+        return jsonify(result), 404

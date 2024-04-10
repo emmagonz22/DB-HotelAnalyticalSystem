@@ -5,9 +5,21 @@ class LocalStatisticsDAO(BaseDAO):
 
     # Local operations
 
-    def handicapRoom(self, hid): # Top 5 handicap rooms that were reserve the most.
+    def handicapRoom(self, hid, json): # Top 5 handicap rooms that were reserve the most.
         try:
             with self.conn.cursor() as cur:
+
+                cur.execute("select chid, hid, position from hotel natural join employee where eid = %s;", (json["user_id"],))
+
+                chid, fetchhid, position = cur.fetchone()
+
+                cur.execute("select chid from hotel where hid = %s;", (hid,))
+
+                chainid = cur.fetchone()[0]
+
+
+                if not ((position == "Regular" and fetchhid == hid) or (position == "Supervisor" and chid == chainid) or (position == "Administrator")):
+                    return "User can't access data!"
 
                 query = """SELECT rid, hid, rdid, rprice, COUNT(reserve.ruid) as reservation_number from room
                         NATURAL JOIN hotel
@@ -30,14 +42,27 @@ class LocalStatisticsDAO(BaseDAO):
                 
             return result
         except Exception as e:
-            raise e  
+            self.conn.rollback()
+            return str(e)  
         finally:
             self.conn.close()
         
 
-    def leastReserve(self, hid): # Top 3 rooms that were the least time unavailable.
+    def leastReserve(self, hid, json): # Top 3 rooms that were the least time unavailable.
         try:
             with self.conn.cursor() as cur:
+                cur.execute("select chid, hid, position from hotel natural join employee where eid = %s;", (json["user_id"],))
+
+                chid, fetchhid, position = cur.fetchone()
+
+                cur.execute("select chid from hotel where hid = %s;", (hid,))
+
+                chainid = cur.fetchone()[0]
+
+
+                if not ((position == "Regular" and fetchhid == hid) or (position == "Supervisor" and chid == chainid) or (position == "Administrator")):
+                    return "User can't access data!"
+                
                 query = """
                 SELECT rid, hid, rdid, rprice,
                     COUNT(roomunavailable.ruid) as times_unavailable ,
@@ -61,14 +86,28 @@ class LocalStatisticsDAO(BaseDAO):
                 
             return result
         except Exception as e:
-            raise e  
+            self.conn.rollback()
+            return str(e)  
         finally:
             self.conn.close()
         
 
-    def mostCreditCard(self, hid): # Top 5 clients under 30 that made the most reservation with a credit card.
+    def mostCreditCard(self, hid, json): # Top 5 clients under 30 that made the most reservation with a credit card.
         try:
             with self.conn.cursor() as cur:
+
+                cur.execute("select chid, hid, position from hotel natural join employee where eid = %s;", (json["user_id"],))
+
+                chid, fetchhid, position = cur.fetchone()
+
+                cur.execute("select chid from hotel where hid = %s;", (hid,))
+
+                chainid = cur.fetchone()[0]
+
+
+                if not ((position == "Regular" and fetchhid == hid) or (position == "Supervisor" and chid == chainid) or (position == "Administrator")):
+                    return "User can't access data!"
+                
                 query = """
                 SELECT  clid, fname, lname, age, memberyear, COUNT(reserve.reid) as number_reservation
                 FROM client
@@ -91,13 +130,27 @@ class LocalStatisticsDAO(BaseDAO):
                 
             return result
         except Exception as e:
-            raise e  
+            self.conn.rollback()
+            return str(e)  
         finally:
             self.conn.close()
 
-    def highestPaid(self, hid): # Top 3 highest paid regular employees.
+    def highestPaid(self, hid, json): # Top 3 highest paid regular employees.
         try:
             with self.conn.cursor() as cur:
+
+                cur.execute("select chid, hid, position from hotel natural join employee where eid = %s;", (json["user_id"],))
+
+                chid, fetchhid, position = cur.fetchone()
+
+                cur.execute("select chid from hotel where hid = %s;", (hid,))
+
+                chainid = cur.fetchone()[0]
+
+
+                if not ((position == "Regular" and fetchhid == hid) or (position == "Supervisor" and chid == chainid) or (position == "Administrator")):
+                    return "User can't access data!"
+                
                 query = """
                     SELECT eid, fname, lname, age, position, salary, hid
                     FROM employee
@@ -123,13 +176,28 @@ class LocalStatisticsDAO(BaseDAO):
                 
             return result
         except Exception as e:
-            raise e  
+            self.conn.rollback()
+            return str(e)  
         finally:
             self.conn.close()
 
-    def mostDiscount(self, hid): # Top 5 clients that received the most discounts.
+    def mostDiscount(self, hid, json): # Top 5 clients that received the most discounts.
         try:
             with self.conn.cursor() as cur:
+
+                cur.execute("select chid, hid, position from hotel natural join employee where eid = %s;", (json["user_id"],))
+
+                chid, fetchhid, position = cur.fetchone()
+
+                cur.execute("select chid from hotel where hid = %s;", (hid,))
+
+                chainid = cur.fetchone()[0]
+
+
+                if not ((position == "Regular" and fetchhid == hid) or (position == "Supervisor" and chid == chainid) or (position == "Administrator")):
+                    return "User can't access data!"
+                
+
                 query = """
                 SELECT clid,
                 fname,
@@ -186,13 +254,28 @@ class LocalStatisticsDAO(BaseDAO):
                 
             return result
         except Exception as e:
-            raise e  
+            self.conn.rollback()
+            return str(e)   
         finally:
             self.conn.close()
 
-    def roomType(self, hid): # Total reservation by room type.
+    def roomType(self, hid, json): # Total reservation by room type.
         try:
             with self.conn.cursor() as cur:
+
+                cur.execute("select chid, hid, position from hotel natural join employee where eid = %s;", (json["user_id"],))
+
+                chid, fetchhid, position = cur.fetchone()
+
+                cur.execute("select chid from hotel where hid = %s;", (hid,))
+
+                chainid = cur.fetchone()[0]
+
+
+                if not ((position == "Regular" and fetchhid == hid) or (position == "Supervisor" and chid == chainid) or (position == "Administrator")):
+                    return "User can't access data!"
+                
+
                 query = """
                     SELECT COUNT(roomdescription.rtype) as total_reservation, roomdescription.rtype as room_type
                     FROM reserve
@@ -212,13 +295,29 @@ class LocalStatisticsDAO(BaseDAO):
                 
             return result
         except Exception as e:
-            raise e  
+            self.conn.rollback()
+            return str(e)   
         finally:
             self.conn.close()
     
-    def leastGuests(self, hid): # Top 3 rooms that were reserved that had the least guest-to-capacity ratio.
+    def leastGuests(self, hid, json): # Top 3 rooms that were reserved that had the least guest-to-capacity ratio.
         try:
             with self.conn.cursor() as cur:
+
+
+                cur.execute("select chid, hid, position from hotel natural join employee where eid = %s;", (json["user_id"],))
+
+                chid, fetchhid, position = cur.fetchone()
+
+                cur.execute("select chid from hotel where hid = %s;", (hid,))
+
+                chainid = cur.fetchone()[0]
+
+
+                if not ((position == "Regular" and fetchhid == hid) or (position == "Supervisor" and chid == chainid) or (position == "Administrator")):
+                    return "User can't access data!"
+                
+                
                 query = """
                     SELECT
                         room.rid,
@@ -247,6 +346,7 @@ class LocalStatisticsDAO(BaseDAO):
                 
             return result
         except Exception as e:
-            raise e  
+            self.conn.rollback()
+            return str(e)   
         finally:
             self.conn.close()

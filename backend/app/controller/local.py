@@ -3,37 +3,52 @@ from flask import jsonify
 
 class BaseLocalStatistic:
     
-    def obtainTopFiveHandicapReserveRoom(self, hid ):
+    def obtainTopFiveHandicapReserveRoom(self, hid, json):
         model = LocalStatisticsDAO()
-        result = model.handicapRoom(hid)
-        return jsonify(result)
+        result = model.handicapRoom(hid, json)
+        if (isinstance(result, list)):
+            return jsonify(result), 200
+        return jsonify(result), 404
 
-    def obtainTopThreeLeastTimeUnavailableRoom(self, hid):
-        model = LocalStatisticsDAO()
-        result = model.leastReserve(hid)
-        return jsonify(result)
 
-    def obtainTopFiveMostCreditCards(self, hid):
+    def obtainTopThreeLeastTimeUnavailableRoom(self, hid, json):
         model = LocalStatisticsDAO()
-        result = model.mostCreditCard(hid)
-        return jsonify(result)
+        result = model.leastReserve(hid, json)
+        if (isinstance(result, list)):
+            return jsonify(result), 200
+        return jsonify(result), 404
 
-    def obtainTopThreeHighestPaidRegularEmployee(self, hid):
+    def obtainTopFiveMostCreditCards(self, hid, json):
         model = LocalStatisticsDAO()
-        result = model.highestPaid(hid)
-        return jsonify(result)
+        result = model.mostCreditCard(hid, json)
+        if (isinstance(result, list)):
+            return jsonify(result), 200
+        return jsonify(result), 404
+
+    def obtainTopThreeHighestPaidRegularEmployee(self, hid, json):
+        model = LocalStatisticsDAO()
+        result = model.highestPaid(hid, json)
+        if (isinstance(result, list)):
+            return jsonify(result), 200
+        return jsonify(result), 404
     
-    def obtainTopFiveClientsMostDiscounts(self, hid):
+    def obtainTopFiveClientsMostDiscounts(self, hid, json):
         model = LocalStatisticsDAO()
-        result = model.mostDiscount(hid)
-        return jsonify(result)
+        result = model.mostDiscount(hid, json)
+        if (isinstance(result, list)):
+            return jsonify(result), 200
+        return jsonify(result), 404
 
-    def obtainTotalReservationRoomType(self, hid):
+    def obtainTotalReservationRoomType(self, hid, json):
         model = LocalStatisticsDAO()
-        result = model.roomType(hid)
-        return jsonify(result)
+        result = model.roomType(hid, json)
+        if (isinstance(result, list)):
+            return jsonify(result), 200
+        return jsonify(result), 404
 
-    def obtainTopThreeRoomsReservedLeastGuestToCapacityRatio(self, hid):
+    def obtainTopThreeRoomsReservedLeastGuestToCapacityRatio(self, hid, json):
         model = LocalStatisticsDAO()
-        result = model.leastGuests(hid)
-        return jsonify(result)
+        result = model.leastGuests(hid, json)
+        if (isinstance(result, list)):
+            return jsonify(result), 200
+        return jsonify(result), 404

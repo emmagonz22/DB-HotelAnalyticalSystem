@@ -3,9 +3,16 @@ import json
 from .baseDAO import BaseDAO
 class GlobalStatisticsDAO(BaseDAO):
         
-    def getTopThreeTotalRevenue(self): # Top 3 chains with the highest total revenue.
+    def getTopThreeTotalRevenue(self, json): # Top 3 chains with the highest total revenue.
         try:
             with self.conn.cursor() as cur:
+                    cur.execute("select position from employee where eid = %s;", (json["user_id"],))
+
+                    position = cur.fetchone()
+
+                    if not (position == "Administrator"):
+                        return "User can't access data!"
+                    
                     query = """
                   SELECT chains.cname, SUM(reserve.total_cost) as TotalRevenue
                     FROM chains
@@ -26,13 +33,30 @@ class GlobalStatisticsDAO(BaseDAO):
 
             return result
         except Exception as e:
-            raise e  
+            self.conn.rollback()
+            return str(e)  
         finally:
             self.conn.close()
 
-    def getpercentageByPaymentMethod(self): # Top 3 chains with the highest total revenue.
+    def getpercentageByPaymentMethod(self, json): # Top 3 chains with the highest total revenue.
         try:
+
+            cur.execute("select position from employee where eid = %s;", (json["user_id"],))
+
+            position = cur.fetchone()
+
+            if not (position == "Administrator"):
+                return "User can't access data!"
+            
+
             with self.conn.cursor() as cur:
+                    cur.execute("select position from employee where eid = %s;", (json["user_id"],))
+
+                    position = cur.fetchone()
+
+                    if not (position == "Administrator"):
+                        return "User can't access data!"
+                    
                     query = """
                 WITH PaymentCounts AS (
                     SELECT payment, COUNT(*) as Count
@@ -55,13 +79,21 @@ class GlobalStatisticsDAO(BaseDAO):
 
             return result
         except Exception as e:
-            raise e  
+            self.conn.rollback()
+            return str(e)   
         finally:
             self.conn.close()
 
-    def getTopThreeLeastRooms(self): # Top 3 chain with the least rooms.
+    def getTopThreeLeastRooms(self, json): # Top 3 chain with the least rooms.
         try:
             with self.conn.cursor() as cur:
+                cur.execute("select position from employee where eid = %s;", (json["user_id"],))
+
+                position = cur.fetchone()
+
+                if not (position == "Administrator"):
+                    return "User can't access data!"
+                
                 query = """
                 SELECT cname, COUNT(room.rid) as numberofrooms
                 FROM chains
@@ -81,13 +113,20 @@ class GlobalStatisticsDAO(BaseDAO):
                 
             return result
         except Exception as e:
-            raise e  
+            self.conn.rollback()
+            return str(e)   
         finally:
             self.conn.close()
 
-    def getTopFiveHotelsMostCapacity(self): # Top 5 hotels with the most capacity.
+    def getTopFiveHotelsMostCapacity(self, json): # Top 5 hotels with the most capacity.
         try:
             with self.conn.cursor() as cur:
+                cur.execute("select position from employee where eid = %s;", (json["user_id"],))
+
+                position = cur.fetchone()
+
+                if not (position == "Administrator"):
+                    return "User can't access data!"
                 query = """
                 SELECT hotel.hid, SUM(roomdescription.capacity) as total_capacity
                 FROM hotel
@@ -107,13 +146,21 @@ class GlobalStatisticsDAO(BaseDAO):
                 
             return result
         except Exception as e:
-            raise e  
+            self.conn.rollback()
+            return str(e)  
         finally:
             self.conn.close()
 
-    def getTopTenByHotelReservation(self): #Top 10% hotels that had the most reservations.
-        try:
+    def getTopTenByHotelReservation(self, json): #Top 10% hotels that had the most reservations.
+        try:            
             with self.conn.cursor() as cur:
+                cur.execute("select position from employee where eid = %s;", (json["user_id"],))
+
+                position = cur.fetchone()
+
+                if not (position == "Administrator"):
+                    return "User can't access data!"
+                
                 query = """
                select hid, count(hid)
                from roomunavailable natural inner join reserve natural inner join room natural inner join hotel
@@ -131,13 +178,21 @@ class GlobalStatisticsDAO(BaseDAO):
                 
             return result
         except Exception as e:
-            raise e  
+            self.conn.rollback()
+            return str(e)    
         finally:
             self.conn.close()
 
-    def getTopThreeMonthByChain(self): # Top 3 month with the most reservation by chain
+    def getTopThreeMonthByChain(self, json): # Top 3 month with the most reservation by chain
         try:
             with self.conn.cursor() as cur:
+                cur.execute("select position from employee where eid = %s;", (json["user_id"],))
+
+                position = cur.fetchone()
+
+                if not (position == "Administrator"):
+                    return "User can't access data!"
+
                 query = """
             select chid, count(extract(month from startdate)), extract(month from startdate) as month
             from roomunavailable natural inner join reserve natural inner join room natural inner join hotel natural inner join chains
@@ -155,7 +210,8 @@ class GlobalStatisticsDAO(BaseDAO):
                 
                 return result
         except Exception as e:
-            raise e  
+            self.conn.rollback()
+            return str(e)    
         finally:
             self.conn.close()
     
