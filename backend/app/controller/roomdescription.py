@@ -5,7 +5,7 @@ class BaseRoomDescription:
     def getAllRoomDescription(self):
         model = RoomDescriptionDAO()
         result = model.getAllRoomDescription()
-        if isinstance(result, dict):
+        if isinstance(result, list):
             return jsonify(result), 200
         return jsonify(result), 404
 

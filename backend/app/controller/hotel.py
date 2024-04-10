@@ -5,7 +5,7 @@ class BaseHotel:
     def getAllHotel(self):
         model = HotelDAO()
         result = model.getAllHotel()
-        if isinstance(result, dict):
+        if isinstance(result, list):
             return jsonify(result), 200
         return jsonify(result), 404
     

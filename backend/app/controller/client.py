@@ -5,28 +5,38 @@ class BaseClient:
     def getAllClients(self):
         model = ClientDAO()
         result = model.getAllClients()
-        return jsonify(result)
+        if isinstance(result, list):
+            return jsonify(result), 200
+        return jsonify(result), 404
 
     def getClientbyId(self, clid):
         model = ClientDAO()
         result = model.getClientbyId(clid)
-        return jsonify(result)
+        if isinstance(result, dict):
+            return jsonify(result), 200
+        return jsonify(result), 404
 
     def createClient(self, json):
         model = ClientDAO()
         result = model.createClient(json)
-        return jsonify(result)
+        if isinstance(result, dict):
+            return jsonify(result), 201
+        elif result.startswith("Invalid"):
+            return jsonify(result), 400
+        return jsonify(result), 404
 
     def deleteClientbyId(self, clid):
         model = ClientDAO()
         result = model.deleteClientbyId(clid)
-        if result:
+        if result.startswith("Deleted"):
             return jsonify(result), 200 
-        return jsonify("Client Not Found"), 404
+        return jsonify(result), 404
 
     def updateClientbyId(self, json):
         model = ClientDAO()
         result = model.updateClientbyId(json)
-        if result:
-            return jsonify(result), 200 
-        return jsonify("Client Not Found"), 404
+        if result.startswith("Updated"):
+            return jsonify(result), 200
+        elif result.startswith("Invalid"):
+            return jsonify(result), 400
+        return jsonify(result), 404

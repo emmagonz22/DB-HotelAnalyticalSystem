@@ -5,7 +5,7 @@ class BaseChains:
     def getAllChains(self):
         model = ChainsDAO()
         result = model.getAllChains()
-        if isinstance(result, dict):
+        if isinstance(result, list):
             return jsonify(result)
         return jsonify(result), 404
 

@@ -4,29 +4,41 @@ from flask import jsonify
 class BaseLogin:
     def getAllLogin(self):
         model = LoginDAO()
-        return jsonify(model.getAllLogin())
+        result = model.getAllLogin()
+        if isinstance(result, list):
+            return jsonify(result), 200
+        return jsonify(result), 404
         
 
     def getLoginbyId(self, lid):
         model = LoginDAO()
-        return jsonify(model.getLoginbyId(lid))
+        result = model.getLoginbyId(lid)
+        if isinstance(result, dict):
+            return jsonify(result), 200
+        return jsonify(result), 404
         
 
     def createLogin(self, json):
         model = LoginDAO()
         result = model.createLogin(json)
-        return jsonify(result)
+        if isinstance(result, dict):
+            return jsonify(result), 201
+        elif result.startswith("Invalid"):
+            return jsonify(result), 400
+        return jsonify(result), 404
 
     def updateLoginbyId(self, json):
         model = LoginDAO()
         result = model.updateLoginbyId(json)
-        if result:
-            return jsonify(result), 200
-        return jsonify("Login not found"), 404
+        if result.startswith("Deleted"):
+            return jsonify(result), 200 
+        return jsonify(result), 404
 
     def deleteLoginbyId(self,lid):
         model = LoginDAO()
         result = model.deleteLoginbyId(lid)
-        if result:
+        if result.startswith("Updated"):
             return jsonify(result), 200
-        return jsonify("Login not found"), 404
+        elif result.startswith("Invalid"):
+            return jsonify(result), 400
+        return jsonify(result), 404
