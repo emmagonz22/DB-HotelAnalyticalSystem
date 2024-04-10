@@ -31,11 +31,10 @@ def handlerTopFiveRoomHandicap(hid):
 
 @app.route('/hotel/<hid>/leastreserve', methods=["GET",'POST'])
 def handlerTopThreeLeastTimeUnavailableRoom(hid):
-
     if request.method == 'POST':
         return BaseLocalStatistic().obtainTopThreeLeastTimeUnavailableRoom(hid)
-
     return "Not reachable!"
+    
 @app.route('/hotel/<hid>/mostcreditcard', methods=["GET",'POST'])
 def handlerTopFiveMostCreditCard(hid):
 
