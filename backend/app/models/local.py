@@ -99,14 +99,26 @@ class LocalStatisticsDAO(BaseDAO):
         try:
             with self.conn.cursor() as cur:
                 query = """
-            
+                    SELECT eid, fname, lname, age, position, salary, hid
+                    FROM employee
+                    NATURAL JOIN hotel
+                    WHERE hotel.hid = %s AND position = 'Regular'
+                    GROUP BY eid,
+                            fname,
+                            lname,
+                            age,
+                            position,
+                            salary,
+                            hid
+                    ORDER BY salary DESC
+                    LIMIT 3;
                 """
 
                 cur.execute(query, (hid,))
                 result = []
                 
                 for row in cur:
-                    result.append(dict(zip([], row)))
+                    result.append(dict(zip(["eid", "fname", "lname", "age", "position", "salary", "hid"], row)))
                     
                 
             return result
@@ -119,14 +131,57 @@ class LocalStatisticsDAO(BaseDAO):
         try:
             with self.conn.cursor() as cur:
                 query = """
-            
+                SELECT clid,
+                fname,
+                lname,
+                age,
+                memberyear,
+                 ROUND( CAST(room.rprice * (roomunavailable.enddate - roomunavailable.startdate) AS NUMERIC), 2) AS reservation_cost,
+                ROUND(
+                        CAST(room.rprice * (roomunavailable.enddate - roomunavailable.startdate) *
+                        (CASE
+                            WHEN EXTRACT(MONTH FROM roomunavailable.startdate) IN (3, 4, 5) THEN chains.springmkup
+                            WHEN EXTRACT(MONTH FROM roomunavailable.startdate) IN (6, 7, 8) THEN chains.summermkup
+                            WHEN EXTRACT(MONTH FROM roomunavailable.startdate) IN (9, 10, 11) THEN chains.fallmkup
+                            ELSE chains.wintermkup
+                        END) *
+                        (CASE
+                            WHEN memberyear > 0 AND memberyear < 5 THEN .02
+                            WHEN memberyear > 4 AND memberyear < 10 THEN .05
+                            WHEN memberyear > 9 AND memberyear < 15 THEN .08
+                            ELSE .12
+                        END) as NUMERIC),
+                        2
+                    )  AS total_discount
+                    FROM client
+                    NATURAL JOIN reserve
+                    NATURAL JOIN roomunavailable
+                    NATURAL JOIN room
+                    NATURAL JOIN hotel
+                    NATURAL JOIN chains
+                    WHERE hotel.hid = %s
+                    GROUP BY clid,
+                            fname,
+                            lname,
+                            age,
+                            memberyear,
+                            room.rprice,
+                            roomunavailable.startdate,
+                            roomunavailable.enddate,
+                            chains.fallmkup,
+                            chains.springmkup,
+                            chains.wintermkup,
+                            chains.summermkup,
+                            reserve.total_cost
+                    ORDER BY total_discount DESC
+                    LIMIT 5;
                 """
 
                 cur.execute(query, (hid,))
                 result = []
                 
-                for row in cur:
-                    result.append(dict(zip([], row)))
+                for clid, fname, lname, age, memberyear, reservation_cost, total_discount in cur:
+                    result.append(dict(zip(['clid', 'fname', 'lname', 'age', 'memberyear', 'reservation_cost', 'total_discount'], (clid, fname, lname, age, memberyear, reservation_cost, round(total_discount, 2)))))
                     
                 
             return result
@@ -139,14 +194,20 @@ class LocalStatisticsDAO(BaseDAO):
         try:
             with self.conn.cursor() as cur:
                 query = """
-            
+                    SELECT COUNT(roomdescription.rtype) as total_reservation, roomdescription.rtype as room_type
+                    FROM reserve
+                    NATURAL JOIN roomunavailable
+                    NATURAL JOIN room
+                    NATURAL JOIN roomdescription
+                    WHERE hid = %s
+                    GROUP BY room_type;
                 """
 
                 cur.execute(query, (hid,))
                 result = []
                 
                 for row in cur:
-                    result.append(dict(zip([], row)))
+                    result.append(dict(zip(["total_reservation", "room_type"], row)))
                     
                 
             return result
