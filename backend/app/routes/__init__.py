@@ -8,3 +8,4 @@ from .room import *
 from .roomunavailable import *
 from .client import *
 from .reserve import *
+from .globals import *
