@@ -132,5 +132,9 @@ class RoomDescriptionDAO(BaseDAO):
             return str(e)
         
         self.conn.commit()
+        rows = cur.rowcount
         self.conn.close()
+        # Always needed
+        if (rows == 0):
+            return "Room Description " + str(data["rdid"]) + " does not exist!"
         return "Updated " + str(data["rdid"])

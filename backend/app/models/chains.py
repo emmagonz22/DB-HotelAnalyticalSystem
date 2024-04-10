@@ -8,14 +8,18 @@ class ChainsDAO(BaseDAO):
             if action == "UPDATE":
                 chid = json["chid"]
             elif action == "CREATE":
-                chid = 0
+                chid = 1
             cname = json["cname"]
             springmkup = json["springmkup"]
             summermkup = json["summermkup"]
             fallmkup = json["fallmkup"]
             wintermkup = json["wintermkup"]
 
-            return isinstance(chid, int) and isinstance(cname, str) and isinstance(springmkup, float) and isinstance(summermkup, float) and isinstance(fallmkup, float) and isinstance(wintermkup, float) and springmkup >= 0 and summermkup >= 0 and fallmkup >= 0 and wintermkup >= 0
+
+            if not (isinstance(chid, int) and isinstance(cname, str) and isinstance(springmkup, float) and isinstance(summermkup, float) and isinstance(fallmkup, float) and isinstance(wintermkup, float) and springmkup >= 0 and summermkup >= 0 and fallmkup >= 0 and wintermkup >= 0):
+                return False
+            
+            return springmkup >= 0 and summermkup >= 0 and fallmkup >= 0 and wintermkup >= 0
         except Exception as e:
             return False
 
