@@ -13,7 +13,7 @@ load_dotenv(dotenv_path=dotenv_path)
 class BaseDAO:
 
     def __init__(self):
-    print( os.getenv('DATABASE'),
+        print( os.getenv('DATABASE'),
             os.getenv('USER_DB'),
             os.getenv('PASSWORD'),
             os.getenv('HOST'),
