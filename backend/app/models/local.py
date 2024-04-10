@@ -220,14 +220,29 @@ class LocalStatisticsDAO(BaseDAO):
         try:
             with self.conn.cursor() as cur:
                 query = """
-            
+                    SELECT
+                        room.rid,
+                        roomdescription.rname,
+                        ROUND(AVG(reserve.guests::decimal / roomdescription.capacity)*100, 2) AS avg_guest_to_capacity_ratio
+                    FROM
+                        reserve
+                    NATURAL JOIN roomunavailable 
+                    NATURAL JOIN room 
+                    NATURAL JOIN roomdescription 
+                    NATURAL JOIN hotel
+                    WHERE hotel.hid = %s
+                    GROUP BY
+                        room.rid, roomdescription.rname
+                    ORDER BY
+                        avg_guest_to_capacity_ratio ASC
+                    LIMIT 3;
                 """
 
                 cur.execute(query, (hid,))
                 result = []
                 
                 for row in cur:
-                    result.append(dict(zip([], row)))
+                    result.append(dict(zip(["rid", "rname", "avg_guest_to_capacity_ratio"], row)))
                     
                 
             return result
