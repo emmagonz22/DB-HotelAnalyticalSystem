@@ -65,14 +65,13 @@ class LocalStatisticsDAO(BaseDAO):
                 
                 query = """
                 SELECT rid, hid, rdid, rprice,
-                    COUNT(roomunavailable.ruid) as times_unavailable ,
-                    SUM(AGE(roomunavailable.enddate, roomunavailable.startdate)) as total_time_unavailable
+                    SUM(roomunavailable.enddate - roomunavailable.startdate) as total_time_unavailable
                 FROM room
                 NATURAL JOIN hotel
                 NATURAL JOIN roomunavailable
                 WHERE hid = %s
                 GROUP BY rid, hid, rdid, rprice
-                ORDER BY times_unavailable ASC, total_time_unavailable ASC
+                ORDER BY total_time_unavailable ASC
                 LIMIT 3;
                 """
 
@@ -322,7 +321,7 @@ class LocalStatisticsDAO(BaseDAO):
                     SELECT
                         room.rid,
                         roomdescription.rname,
-                        ROUND(AVG(reserve.guests::decimal / roomdescription.capacity)*100, 2) AS avg_guest_to_capacity_ratio
+                        AVG(reserve.guests::decimal / roomdescription.capacity) AS avg_guest_to_capacity_ratio
                     FROM
                         reserve
                     NATURAL JOIN roomunavailable 

@@ -46,7 +46,7 @@ class RoomDAO(BaseDAO):
         self.conn.close()
         # Always needed
         if (rows == 0):
-            return "Room Description " + str(rid) + " does not exist!"
+            return "Room " + str(rid) + " does not exist!"
         result = dict(zip(["rid", "hid", "rdid", "rprice"], info))
         self.conn.close()
         return result

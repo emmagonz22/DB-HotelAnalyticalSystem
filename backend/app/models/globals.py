@@ -38,7 +38,7 @@ class GlobalStatisticsDAO(BaseDAO):
         finally:
             self.conn.close()
 
-    def getpercentageByPaymentMethod(self, json): # Top 3 chains with the highest total revenue.
+    def getpercentageByPaymentMethod(self, json): # Total reservation percentage by payment method.
         try:
 
             cur.execute("select position from employee where eid = %s;", (json["user_id"],))

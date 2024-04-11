@@ -112,5 +112,5 @@ class LoginDAO(BaseDAO):
         self.conn.close()
         # Always needed
         if (rows == 0):
-            return "Room Description " + str(lid) + " does not exist!"
+            return "Login " + str(lid) + " does not exist!"
         return "Deleted " + str(lid)

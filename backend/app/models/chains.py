@@ -120,5 +120,5 @@ class ChainsDAO(BaseDAO):
         self.conn.close()
         # Always needed
         if (rows == 0):
-            return "Hotel " + str(data["chid"]) + " does not exist!"
+            return "Chain " + str(data["chid"]) + " does not exist!"
         return "Updated " + str(data["chid"])
