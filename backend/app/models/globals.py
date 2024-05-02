@@ -191,11 +191,20 @@ class GlobalStatisticsDAO(BaseDAO):
                     return "User can't access data!"
 
                 query = """
-            select chid, count(extract(month from startdate)), extract(month from startdate) as month
+                with top_three as
+            (select chid, count(extract(month from startdate)) as count, extract(month from startdate) as month
             from roomunavailable natural inner join reserve natural inner join room natural inner join hotel natural inner join chains
             group by chid, month
-            order by count(extract(month from startdate)) DESC
-            limit 3;
+            order by count(extract(month from startdate)) DESC)
+
+            select chid, month, count as total
+            from top_three as top
+            where ((top.count = (select count from top_three where top_three.chid = top.chid offset 2 limit 1) and top.month = (select month from top_three where top_three.chid = top.chid offset 2 limit 1))
+                or (top.count = (select count from top_three where top_three.chid = top.chid offset 1 limit 1) and top.month = (select month from top_three where top_three.chid = top.chid offset 1 limit 1))
+                or (top.count = (select count from top_three where top_three.chid = top.chid limit 1) and top.month = (select month from top_three where top_three.chid = top.chid limit 1))
+                )
+            group by chid, month, count
+            order by chid ASC, total DESC
                 """
 
                 cur.execute(query)
