@@ -80,7 +80,7 @@ class LocalStatisticsDAO(BaseDAO):
                 
                 for row in cur:
                     print(row)
-                    result.append(dict(zip(["rid", "hid", "rdid", "rprice"], row)))
+                    result.append(dict(zip(["rid", "hid", "rdid", "rprice", "total_time_unavailable"], row)))
                     
                 
             return result
@@ -124,7 +124,7 @@ class LocalStatisticsDAO(BaseDAO):
                 result = []
                 
                 for row in cur:
-                    result.append(dict(zip(["clid", "fname", "lname", "age", "memberyear"], row)))
+                    result.append(dict(zip(["clid", "fname", "lname", "age", "memberyear", "number_reservation"], row)))
                     
                 
             return result
