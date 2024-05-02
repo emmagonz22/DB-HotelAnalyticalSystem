@@ -8,20 +8,21 @@ class GlobalStatisticsDAO(BaseDAO):
             with self.conn.cursor() as cur:
                     cur.execute("select position from employee where eid = %s;", (json["user_id"],))
 
-                    position = cur.fetchone()
+                    position = cur.fetchone()[0]
+                    print(position)
 
                     if not (position == "Administrator"):
                         return "User can't access data!"
                     
                     query = """
-                  SELECT chains.cname, SUM(reserve.total_cost) as TotalRevenue
+                  SELECT chains.chid, TRUNC(SUM(reserve.total_cost))::numeric(1000, 2) as Total_Revenue
                     FROM chains
                     NATURAL INNER JOIN hotel
                     NATURAL INNER JOIN room
                     NATURAL INNER JOIN roomunavailable
                     NATURAL INNER JOIN reserve
-                    GROUP BY chains.cname
-                    ORDER BY TotalRevenue DESC
+                    GROUP BY chains.chid
+                    ORDER BY Total_Revenue DESC
                     LIMIT 3;
                     """
 
@@ -29,7 +30,7 @@ class GlobalStatisticsDAO(BaseDAO):
                     result = []
                     
                     for row in cur:
-                        result.append(dict(zip(["cname", "TotalRevenue"], row)))  
+                        result.append(dict(zip(["id", "Total_Revenue"], row)))  
 
             return result
         except Exception as e:
@@ -40,19 +41,10 @@ class GlobalStatisticsDAO(BaseDAO):
 
     def getpercentageByPaymentMethod(self, json): # Total reservation percentage by payment method.
         try:
-
-            cur.execute("select position from employee where eid = %s;", (json["user_id"],))
-
-            position = cur.fetchone()
-
-            if not (position == "Administrator"):
-                return "User can't access data!"
-            
-
             with self.conn.cursor() as cur:
                     cur.execute("select position from employee where eid = %s;", (json["user_id"],))
 
-                    position = cur.fetchone()
+                    position = cur.fetchone()[0]
 
                     if not (position == "Administrator"):
                         return "User can't access data!"
@@ -67,8 +59,9 @@ class GlobalStatisticsDAO(BaseDAO):
                     SELECT COUNT(*) as Total
                     FROM Reserve
                 )
-                SELECT PaymentCounts.payment, (PaymentCounts.Count * 100.0 / TotalReservations.Total) as Percentage
-                FROM PaymentCounts, TotalReservations;
+                SELECT PaymentCounts.payment, ROUND(PaymentCounts.Count * 100.0 / TotalReservations.Total, 1)::numeric(1000,2) as Percentage
+                FROM PaymentCounts, TotalReservations
+                ORDER by Percentage DESC;
                     """
 
                     cur.execute(query)
@@ -89,7 +82,8 @@ class GlobalStatisticsDAO(BaseDAO):
             with self.conn.cursor() as cur:
                 cur.execute("select position from employee where eid = %s;", (json["user_id"],))
 
-                position = cur.fetchone()
+                position = cur.fetchone()[0]
+                print(position)
 
                 if not (position == "Administrator"):
                     return "User can't access data!"
@@ -123,7 +117,8 @@ class GlobalStatisticsDAO(BaseDAO):
             with self.conn.cursor() as cur:
                 cur.execute("select position from employee where eid = %s;", (json["user_id"],))
 
-                position = cur.fetchone()
+                position = cur.fetchone()[0]
+                print(position)
 
                 if not (position == "Administrator"):
                     return "User can't access data!"
@@ -141,7 +136,7 @@ class GlobalStatisticsDAO(BaseDAO):
                 result = []
                 
                 for row in cur:
-                    result.append(dict(zip(["hid", "total_capacity"], row)))
+                    result.append(dict(zip(["id", "total_capacity"], row)))
                     
                 
             return result
@@ -156,7 +151,8 @@ class GlobalStatisticsDAO(BaseDAO):
             with self.conn.cursor() as cur:
                 cur.execute("select position from employee where eid = %s;", (json["user_id"],))
 
-                position = cur.fetchone()
+                position = cur.fetchone()[0]
+                print(position)
 
                 if not (position == "Administrator"):
                     return "User can't access data!"
@@ -173,7 +169,7 @@ class GlobalStatisticsDAO(BaseDAO):
                 result = []
                 
                 for row in cur:
-                    result.append(dict(zip(["hid", "count"], row)))
+                    result.append(dict(zip(["id", "count"], row)))
                     
                 
             return result
@@ -188,7 +184,8 @@ class GlobalStatisticsDAO(BaseDAO):
             with self.conn.cursor() as cur:
                 cur.execute("select position from employee where eid = %s;", (json["user_id"],))
 
-                position = cur.fetchone()
+                position = cur.fetchone()[0]
+                print(position)
 
                 if not (position == "Administrator"):
                     return "User can't access data!"
@@ -205,7 +202,7 @@ class GlobalStatisticsDAO(BaseDAO):
                 result = []
                 
                 for row in cur:
-                    result.append(dict(zip(["chid", "count", "month"], row)))
+                    result.append(dict(zip(["id", "count", "month"], row)))
                     
                 
                 return result

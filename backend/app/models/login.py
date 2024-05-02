@@ -13,6 +13,9 @@ class LoginDAO(BaseDAO):
             username = json["username"]
             password = json["password"]
 
+            # TODO: NEEDS TO VALIDATE THAT THE LOGIN IS AVAILABLE FOR THAT EMPLOYEE
+            # NEEDS TO HAVE A ONE TO ONE RELATIONSHIP
+
             return isinstance(lid, int) and isinstance(eid, int) and isinstance(username, str) and isinstance(password, str)
         except Exception as e:
             return False

@@ -80,43 +80,43 @@ def getEmployeebyId(eid):
     return "Not reachable!"
 
 
-@app.route('/most/revenue', methods=["GET"])
+@app.route('/most/revenue', methods=["POST"])
 def getTopThreeTotalRevenue():
-      if request.method == 'GET':
+      if request.method == 'POST':
         return BaseGlobalStatistic().getTopThreeTotalRevenue(request.json)
       return "Not reachable!"
 
-@app.route('/paymentmethod', methods=["GET"])
+@app.route('/paymentmethod', methods=["POST"])
 def ggetpercentageByPaymentMethod():
-      if request.method == 'GET':
+      if request.method == 'POST':
         return BaseGlobalStatistic().getpercentageByPaymentMethod(request.json)
       return "Not reachable!"
       
-@app.route('/least/rooms', methods=["GET"])
+@app.route('/least/rooms', methods=["POST"])
 def handlergetTopThreeLeastRooms():
 
-    if request.method == 'GET':
+    if request.method == 'POST':
         return BaseGlobalStatistic().getTopThreeLeastRooms(request.json)
 
     return "Not reachable!"
 
-@app.route('/most/capacity', methods=["GET"])
+@app.route('/most/capacity', methods=["POST"])
 def getTopFiveHotelsMostCapacity():
-    if request.method == "GET":
+    if request.method == "POST":
         return BaseGlobalStatistic().getTopFiveHotelsMostCapacity(request.json)
 
     return "Not reachable!"
 
 
-@app.route('/most/reservation', methods=["GET"])
+@app.route('/most/reservation', methods=["POST"])
 def  getTopTenByHotelReservation():
-      if request.method == 'GET':
+      if request.method == 'POST':
         return BaseGlobalStatistic().getTopTenByHotelReservation(request.json)
       return "Not reachable!"
 
-@app.route('/most/profitmonth', methods=["GET"])
+@app.route('/most/profitmonth', methods=["POST"])
 def getTopThreeMonthByChain():
-      if request.method == 'GET':
+      if request.method == 'POST':
         return BaseGlobalStatistic().getTopThreeMonthByChain(request.json)
       return "Not reachable!"
 
@@ -139,7 +139,7 @@ def getHotelbyId(hid):
         return BaseHotel().updateHotelbyId(request.json)
     return "Not reachable!"
 
-@app.route('/hotel/<int:hid>/handicaproom', methods=["GET",'POST'])
+@app.route('/hotel/<int:hid>/handicaproom', methods=['POST'])
 def handlerTopFiveRoomHandicap(hid):
 
     if request.method == 'POST':
@@ -147,13 +147,13 @@ def handlerTopFiveRoomHandicap(hid):
 
     return "Not reachable!"
 
-@app.route('/hotel/<int:hid>/leastreserve', methods=["GET",'POST'])
+@app.route('/hotel/<int:hid>/leastreserve', methods=['POST'])
 def handlerTopThreeLeastTimeUnavailableRoom(hid):
     if request.method == 'POST':
         return BaseLocalStatistic().obtainTopThreeLeastTimeUnavailableRoom(hid, request.json)
     return "Not reachable!"
     
-@app.route('/hotel/<int:hid>/mostcreditcard', methods=["GET",'POST'])
+@app.route('/hotel/<int:hid>/mostcreditcard', methods=['POST'])
 def handlerTopFiveMostCreditCard(hid):
 
     if request.method == "POST":
@@ -162,7 +162,7 @@ def handlerTopFiveMostCreditCard(hid):
     return "Not reachable!"
 
 
-@app.route('/hotel/<int:hid>/highestpaid', methods=["GET",'POST'])
+@app.route('/hotel/<int:hid>/highestpaid', methods=['POST'])
 def handlerTopThreeHighestPaidRegularEmployee(hid):
 
     if request.method == "POST":
@@ -172,7 +172,7 @@ def handlerTopThreeHighestPaidRegularEmployee(hid):
 
 
 
-@app.route('/hotel/<int:hid>/mostdiscount', methods=["GET",'POST'])
+@app.route('/hotel/<int:hid>/mostdiscount', methods=['POST'])
 def handlerTopFiveClientsMostDiscounts(hid):
 
     if request.method == "POST":
@@ -181,7 +181,7 @@ def handlerTopFiveClientsMostDiscounts(hid):
     return "Not reachable!"
 
 
-@app.route('/hotel/<int:hid>/roomtype', methods=["GET",'POST'])
+@app.route('/hotel/<int:hid>/roomtype', methods=['POST'])
 def handlerTotalReservationRoomType(hid):
     if request.method == "POST":
         return BaseLocalStatistic().obtainTotalReservationRoomType(hid, request.json)
@@ -189,7 +189,7 @@ def handlerTotalReservationRoomType(hid):
     return "Not reachable!"
 
 
-@app.route('/hotel/<int:hid>/leastguests', methods=["GET",'POST'])
+@app.route('/hotel/<int:hid>/leastguests', methods=['POST'])
 def handlerTopThreeReservedLeastGuestToCapacityRatio(hid):
     if request.method == "POST":
         return BaseLocalStatistic().obtainTopThreeRoomsReservedLeastGuestToCapacityRatio(hid, request.json)
