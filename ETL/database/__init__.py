@@ -1,7 +1,7 @@
 from .db import database
 
 
-uri = "postgres://mczezvedpbzqiy:6a0a49ce1b57d13cf7c2f17aa352c7258598212c4d3fdf18f27c05ca7ad47f7e@ec2-35-169-9-79.compute-1.amazonaws.com:5432/d4bb9ff0fkont9"
+uri = "postgres://vaccmbbtflaoyw:cec952ce84d6a3824ee8815c1784bab847d052cf2efa4e71f0f1b263e1eae69b@ec2-18-213-181-126.compute-1.amazonaws.com:5432/dov2laco77h6n"
 
 db = database(uri)
 

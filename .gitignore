@@ -3,3 +3,6 @@ backend/.vnv
 backend/.venv
 backend/venv
 __pycache__
+venv
+.venv
+frontend/.venv+
