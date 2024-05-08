@@ -1,5 +1,5 @@
 from app import create_app
-from flask import request
+from flask import request, jsonify
 
 from app.controller.chains import BaseChains
 from app.controller.client import BaseClient
@@ -215,6 +215,21 @@ def handleLoginbyId(lid):
         return BaseLogin().updateLoginbyId(request.json)
     return "Not reachable!"
 
+@app.route('/auth', methods=["POST"])
+def userLogin():    
+    if request.method == 'POST':
+        data = request.json
+        username = data.get('username')
+        password = data.get('password')
+
+        all_users = BaseLogin().getAllLogin()
+        
+        for user, index in enumerate(all_users):
+            if user.get('username') == username and user.get('password') == password:
+                return jsonify({'status': 'success', 'username' : user.get('username'), 'lid': user.get('lid'), 'eid' : user.get('eid') })
+                
+        return jsonify({'status': 'Wrong username or password'})
+         
 
 @app.route('/reserve', methods=['GET', 'POST'])
 def handleReserve():
