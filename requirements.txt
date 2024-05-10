@@ -8,7 +8,11 @@ voila
 ipywidgets
 plotly==5.20.0
 bqplot 
-tornado==6.4
+tornado
 nbconvert
 ipykernel
 dash
+vois
+ipyvuetify
+flask-login
+flask-cors
