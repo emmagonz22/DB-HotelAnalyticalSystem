@@ -2,23 +2,30 @@ import requests
 
 url = "https://db-hotel-analytics-systems-6a60248fdbac.herokuapp.com/"
 
-def TopFiveRoomHandicap(hid, json):
-    return requests.post(url+"hotel/{hid}/handicaproom", json).content
+def TopFiveRoomHandicap(hid, info):
+    headers = {'Content-Type': 'application/json'}
+    return requests.post(url+f"hotel/{hid}/handicaproom", json =info, headers=headers)
 
-def TopThreeLeastTimeUnavailableRoom(hid, json):
-    return requests.post(url+"hotel/{hid}/leastreserve",json).content
+def TopThreeLeastTimeUnavailableRoom(hid, info):
+    headers = {'Content-Type': 'application/json'}
+    return requests.post(url+f"hotel/{hid}/leastreserve",json =info, headers=headers)
     
-def TopFiveMostCreditCard(hid, json):
-    return requests.post(url+"hotel/{hid}/mostcreditcard",json).content
+def TopFiveMostCreditCard(hid, info):
+    headers = {'Content-Type': 'application/json'}
+    return requests.post(url+f"hotel/{hid}/mostcreditcard",json =info, headers=headers)
 
-def TopThreeHighestPaidRegularEmployee(hid, json):
-    return requests.post(url+"hotel/{hid}/highestpaid",json).content
+def TopThreeHighestPaidRegularEmployee(hid, info):
+    headers = {'Content-Type': 'application/json'}
+    return requests.post(url+f"hotel/{hid}/highestpaid",json =info, headers=headers)
 
-def TopFiveClientsMostDiscounts(hid, json):
-    return requests.post(url+"hotel/{hid}/mostdiscount",json).content
+def TopFiveClientsMostDiscounts(hid, info):
+    headers = {'Content-Type': 'application/json'}
+    return requests.post(url+f"hotel/{hid}/mostdiscount",json =info, headers=headers)
 
-def TotalReservationRoomType(hid, json):
-    return requests.post(url+"hotel/{hid}/roomtype",json).content
+def TotalReservationRoomType(hid, info):
+    headers = {'Content-Type': 'application/json'}
+    return requests.post(url+f"hotel/{hid}/roomtype",json =info, headers=headers)
 
-def TopThreeReservedLeastGuestToCapacityRatio(hid, json):
-    return requests.post(url+"hotel/{hid}/leastguests",json).content
+def TopThreeReservedLeastGuestToCapacityRatio(hid, info):
+    headers = {'Content-Type': 'application/json'}
+    return requests.post(url+f"hotel/{hid}/leastguests", json =info)

@@ -211,7 +211,7 @@ class GlobalStatisticsDAO(BaseDAO):
                 result = []
                 
                 for row in cur:
-                    result.append(dict(zip(["id", "count", "month"], row)))
+                    result.append(dict(zip(["id", "month", "count"], row)))
                     
                 
                 return result
