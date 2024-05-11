@@ -11,7 +11,6 @@ class ReserveDAO(BaseDAO):
                 reid = 1
             ruid = json["ruid"]
             clid = json["clid"]
-            total_cost = json["total_cost"]
             payment = json["payment"]
             guests = json["guests"]
 
@@ -52,7 +51,8 @@ class ReserveDAO(BaseDAO):
             else:
                 discount = 0.88
             cost = int(values["days"]) * values["rprice"] * season * discount
-            return int(cost) == int(total_cost)
+            json["total_cost"] = cost
+            return True
         except Exception as e:
             print(str(e))
             return False

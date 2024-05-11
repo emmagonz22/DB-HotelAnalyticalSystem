@@ -5,11 +5,17 @@ class LoginDAO(BaseDAO):
     def validateData(self, json, action):
         try:
             lid = None
+            eid = json["eid"]
             if action == "UPDATE":
                 lid = json["lid"]
             elif action == "CREATE":
-                lid = 0
-            eid = json["eid"]
+                lid = 1
+                cur = self.conn.cursor()
+                cur.execute("SELECT lid, eid, username, password from login where eid=%s;", (eid,))
+                employee = cur.fetchone()
+                if len(employee) > 0:
+                    return False
+
             username = json["username"]
             password = json["password"]
 
