@@ -5,20 +5,26 @@ url = "https://db-hotel-analytics-systems-6a60248fdbac.herokuapp.com/"
 def getIndexTest():
     return requests.get(url)
 
-def getTopThreeTotalRevenue(json):
-    return requests.post(url + "most/revenue", json)
+def getTopThreeTotalRevenue(info):
+    headers = {'Content-Type': 'application/json'}
+    return requests.post(url + "most/revenue", json=info, headers=headers)
 
-def getpercentageByPaymentMethod(json):
-    return requests.post(url + "paymentmethod", json)
+def getpercentageByPaymentMethod(info):
+    headers = {'Content-Type': 'application/json'}
+    return requests.post(url + "paymentmethod", json=info, headers=headers)
       
-def handlergetTopThreeLeastRooms(json):
-    return requests.post(url + "least/rooms", json)
+def handlergetTopThreeLeastRooms(info):
+    headers = {'Content-Type': 'application/json'}
+    return requests.post(url + "least/rooms", json=info, headers=headers)
 
-def getTopFiveHotelsMostCapacity(json):
-    return requests.post(url + "most/capacity", json)
+def getTopFiveHotelsMostCapacity(info):
+    headers = {'Content-Type': 'application/json'}
+    return requests.post(url + "most/capacity", json=info, headers=headers)
 
-def getTopTenByHotelReservation(json):
-    return requests.post(url + "most/reservation", json)
+def getTopTenByHotelReservation(info):
+    headers = {'Content-Type': 'application/json'}
+    return requests.post(url + "most/reservation", json=info, headers=headers)
 
-def getTopThreeMonthByChain(json):
-    return requests.post(url + "most/profitmonth", json)
+def getTopThreeMonthByChain(info):
+    headers = {'Content-Type': 'application/json'}
+    return requests.post(url + "most/profitmonth", json=info, headers=headers)
