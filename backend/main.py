@@ -2,7 +2,7 @@ from app import create_app
 from flask import request, jsonify, Flask, redirect, render_template, url_for, flash, send_file, render_template_string
 
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required, UserMixin
-from User import User
+from app.user import User
 
 from app.controller.chains import BaseChains
 from app.controller.client import BaseClient
@@ -241,7 +241,7 @@ def userLogin():
         username = data.get('username')
         password = data.get('password')
         print(data)
-        print(data.form['username'])
+        #print(data.form['username'])
         #username = data.form['username']
         #password = data.form['password']
         if not username or not password:
