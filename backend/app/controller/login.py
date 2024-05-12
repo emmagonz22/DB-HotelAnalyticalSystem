@@ -42,3 +42,14 @@ class BaseLogin:
         elif result.startswith("Invalid"):
             return jsonify(result), 400
         return jsonify(result), 404
+
+    def verifyLogin(self, username, password):
+        model = LoginDAO()
+        all_users = model.getAllLogin()
+      
+        for index, user in enumerate(all_users):
+            #print(user)
+            if user.get('username') == username and user.get('password') == password:
+                return user.get('eid')
+        
+        return None 

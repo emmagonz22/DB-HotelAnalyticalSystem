@@ -1,5 +1,8 @@
 from app import create_app
-from flask import request
+from flask import request, jsonify, Flask, redirect, render_template, url_for, flash, send_file, render_template_string
+
+from flask_login import LoginManager, login_user, logout_user, current_user, login_required, UserMixin
+from app.user import User
 
 from app.controller.chains import BaseChains
 from app.controller.client import BaseClient
@@ -87,18 +90,21 @@ def getEmployeebyId(eid):
 
 
 @app.route('/most/revenue', methods=["POST"])
+@login_required
 def getTopThreeTotalRevenue():
       if request.method == 'POST':
         return BaseGlobalStatistic().getTopThreeTotalRevenue(request.json)
       return "Not reachable!"
 
 @app.route('/paymentmethod', methods=["POST"])
+@login_required
 def ggetpercentageByPaymentMethod():
       if request.method == 'POST':
         return BaseGlobalStatistic().getpercentageByPaymentMethod(request.json)
       return "Not reachable!"
       
 @app.route('/least/rooms', methods=["POST"])
+@login_required
 def handlergetTopThreeLeastRooms():
 
     if request.method == 'POST':
@@ -107,6 +113,7 @@ def handlergetTopThreeLeastRooms():
     return "Not reachable!"
 
 @app.route('/most/capacity', methods=["POST"])
+@login_required
 def getTopFiveHotelsMostCapacity():
     if request.method == "POST":
         return BaseGlobalStatistic().getTopFiveHotelsMostCapacity(request.json)
@@ -115,12 +122,14 @@ def getTopFiveHotelsMostCapacity():
 
 
 @app.route('/most/reservation', methods=["POST"])
+@login_required
 def  getTopTenByHotelReservation():
       if request.method == 'POST':
         return BaseGlobalStatistic().getTopTenByHotelReservation(request.json)
       return "Not reachable!"
 
 @app.route('/most/profitmonth', methods=["POST"])
+@login_required
 def getTopThreeMonthByChain():
       if request.method == 'POST':
         return BaseGlobalStatistic().getTopThreeMonthByChain(request.json)
@@ -148,6 +157,7 @@ def getHotelbyId(hid):
     return "Not reachable!"
 
 @app.route('/hotel/<int:hid>/handicaproom', methods=['POST'])
+@login_required
 def handlerTopFiveRoomHandicap(hid):
 
     if request.method == 'POST':
@@ -156,12 +166,14 @@ def handlerTopFiveRoomHandicap(hid):
     return "Not reachable!"
 
 @app.route('/hotel/<int:hid>/leastreserve', methods=['POST'])
+@login_required
 def handlerTopThreeLeastTimeUnavailableRoom(hid):
     if request.method == 'POST':
         return BaseLocalStatistic().obtainTopThreeLeastTimeUnavailableRoom(hid, request.json)
     return "Not reachable!"
     
 @app.route('/hotel/<int:hid>/mostcreditcard', methods=['POST'])
+@login_required
 def handlerTopFiveMostCreditCard(hid):
 
     if request.method == "POST":
@@ -171,6 +183,7 @@ def handlerTopFiveMostCreditCard(hid):
 
 
 @app.route('/hotel/<int:hid>/highestpaid', methods=['POST'])
+@login_required
 def handlerTopThreeHighestPaidRegularEmployee(hid):
 
     if request.method == "POST":
@@ -181,6 +194,7 @@ def handlerTopThreeHighestPaidRegularEmployee(hid):
 
 
 @app.route('/hotel/<int:hid>/mostdiscount', methods=['POST'])
+@login_required
 def handlerTopFiveClientsMostDiscounts(hid):
 
     if request.method == "POST":
@@ -190,6 +204,7 @@ def handlerTopFiveClientsMostDiscounts(hid):
 
 
 @app.route('/hotel/<int:hid>/roomtype', methods=['POST'])
+@login_required
 def handlerTotalReservationRoomType(hid):
     if request.method == "POST":
         return BaseLocalStatistic().obtainTotalReservationRoomType(hid, request.json)
@@ -198,6 +213,7 @@ def handlerTotalReservationRoomType(hid):
 
 
 @app.route('/hotel/<int:hid>/leastguests', methods=['POST'])
+@login_required
 def handlerTopThreeReservedLeastGuestToCapacityRatio(hid):
     if request.method == "POST":
         return BaseLocalStatistic().obtainTopThreeRoomsReservedLeastGuestToCapacityRatio(hid, request.json)
@@ -225,6 +241,66 @@ def handleLoginbyId(lid):
         return BaseLogin().updateLoginbyId(file)
     return "Not reachable!"
 
+@app.route('/auth', methods=["GET", "POST"])
+def userLogin():    
+    print("Request JSON: ",  request.json)
+    if request.method == 'POST':
+        data = request.json
+        print(data)
+        username = data.get('username')
+        password = data.get('password')
+        #print(data.form['username'])
+        #username = data.form['username']
+        #password = data.form['password']
+        if not username or not password:
+            return jsonify({'status': 'error', 'message': 'Missing username or password'}), 400
+
+        user = User(BaseLogin().verifyLogin(username, password))
+       
+        if user.eid is not None:
+            print("User exist:", user,"\n")
+            login_user(user)
+            print(user.is_authenticated)
+            return jsonify(detail="Login successful"), 200
+        print("Invalid username or password")
+        return jsonify({'status': 'Wrong username or password'}), 400
+        
+    
+
+@app.route('/signout', methods=["GET"])
+@login_required
+def signout():
+    logout_user()
+    return redirect("login.ipynb")
+
+
+'''
+@app.route('/login/', methods=['GET', 'POST'])
+    def login():
+        
+        if request.method == "GET":
+            print("Rendering login template")
+            return render_template('login.html')
+        elif request.method == 'POST':
+            username: str = request.form['username'].lower()
+            password: str = request.form['password']
+
+            # sends user and pass to backend to be verified and logged in
+            sign_in_event = backend.sign_in(username=username,
+                                            password=password)
+            print("Signin USER: ", username)
+            if sign_in_event:
+                user = User(username=username)
+                login_user(user)
+
+                flash('Logged in successfully.')
+                return redirect(url_for("home"))
+            else:
+                flash('Wrong username or password. Please Try Again.')
+                return redirect(url_for('login'))
+        else:
+            return redirect(url_for('login'))
+'''
 
 @app.route('/reserve', methods=['GET', 'POST'])
 def handleReserve():
