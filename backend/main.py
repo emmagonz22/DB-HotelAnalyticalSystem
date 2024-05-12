@@ -267,7 +267,7 @@ def userLogin():
         
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    if request.method == POST:
+    if request.method == 'POST':
         data = request.json
 
         login = {
@@ -295,6 +295,8 @@ def register():
         BaseLogin.createLogin(login)
         ## Create employee
         BaseEmployee.createEmployee(employee)
+
+
 @app.route('/signout', methods=["GET"])
 #@login_required
 def signout():
