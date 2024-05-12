@@ -13,7 +13,7 @@ class LoginDAO(BaseDAO):
                 cur = self.conn.cursor()
                 cur.execute("SELECT lid, eid, username, password from login where eid=%s;", (eid,))
                 employee = cur.fetchone()
-                if len(employee) > 0:
+                if employee:
                     return False
 
             username = json["username"]

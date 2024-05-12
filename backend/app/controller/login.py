@@ -30,14 +30,14 @@ class BaseLogin:
     def updateLoginbyId(self, json):
         model = LoginDAO()
         result = model.updateLoginbyId(json)
-        if result.startswith("Deleted"):
+        if result.startswith("Updated"):
             return jsonify(result), 200 
         return jsonify(result), 404
 
     def deleteLoginbyId(self,lid):
         model = LoginDAO()
         result = model.deleteLoginbyId(lid)
-        if result.startswith("Updated"):
+        if result.startswith("Deleted"):
             return jsonify(result), 200
         elif result.startswith("Invalid"):
             return jsonify(result), 400
