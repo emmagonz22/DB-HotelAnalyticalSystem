@@ -58,6 +58,14 @@ def deleteLogin(id):
     headers = {'Content-Type': 'application/json'}
     return requests.delete(url + f"login/{id}", headers=headers)
 
+def retrieveLogin(id):
+    headers = {'Content-Type': 'application/json'}
+    data = requests.get(url + f"login", headers=headers)
+    for row in data:
+        if row["eid"] == id:
+            return row
+    return ""
+
 
 # Room
 def createRoom(info):
