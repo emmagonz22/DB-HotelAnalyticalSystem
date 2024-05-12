@@ -34,14 +34,16 @@ def handleChains():
         return BaseChains().createChain(request.json)
     return "Not reachable!"
 
-@app.route('/chains/<chid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/chains/<int:chid>', methods=['GET', 'PUT', 'DELETE'])
 def handleChainsbyId(chid):
     if request.method == 'GET':
         return BaseChains().getChainsbyId(int(chid))
     elif request.method == 'DELETE':
         return BaseChains().deleteChainbyId(int(chid))
     elif request.method == 'PUT':
-       return BaseChains().updateChainbyId(request.json)
+        file = request.json
+        file["chid"] = int(chid)
+        return BaseChains().updateChainbyId(file)
     return "Not reachable!"
 
 
@@ -53,14 +55,16 @@ def handleClient():
         return BaseClient().createClient(request.json)
     return "Not reachable!"
 
-@app.route('/client/<clid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/client/<int:clid>', methods=['GET', 'PUT', 'DELETE'])
 def handleClientbyId(clid):
     if request.method == 'GET':
         return BaseClient().getClientbyId(int(clid))
     elif request.method == 'DELETE':
         return BaseClient().deleteClientbyId(int(clid))
     elif request.method == 'PUT':
-       return BaseClient().updateClientbyId(request.json)
+        file = request.json
+        file["clid"] = int(clid)
+        return BaseClient().updateClientbyId(file)
     return "Not reachable!"
 
 
@@ -72,14 +76,16 @@ def getAllEmployee():
         return BaseEmployee().createEmployee(request.json)
     return "Not reachable!"
 
-@app.route('/employee/<eid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/employee/<int:eid>', methods=['GET', 'PUT', 'DELETE'])
 def getEmployeebyId(eid):
     if request.method == 'GET':
         return BaseEmployee().getEmployeebyId(int(eid))
     elif request.method == 'DELETE':
         return BaseEmployee().deleteEmployeebyId(int(eid))
     elif request.method == 'PUT':
-       return BaseEmployee().updateEmployeebyId(request.json)
+       file = request.json
+       file["eid"] = int(eid)
+       return BaseEmployee().updateEmployeebyId(file)
     return "Not reachable!"
 
 
@@ -138,14 +144,16 @@ def getAllHotel():
         return BaseHotel().createHotel(request.json)
     return "Not reachable!"
 
-@app.route('/hotel/<hid>', methods=['GET', 'PUT','DELETE'])
+@app.route('/hotel/<int:hid>', methods=['GET', 'PUT','DELETE'])
 def getHotelbyId(hid):
     if request.method == 'GET':
         return BaseHotel().getHotelbyId(int(hid))
     elif request.method == 'DELETE':
         return BaseHotel().deleteHotelbyId(int(hid))
     elif request.method == 'PUT':
-        return BaseHotel().updateHotelbyId(request.json)
+        file = request.json
+        file["hid"] = int(hid)
+        return BaseHotel().updateHotelbyId(file)
     return "Not reachable!"
 
 @app.route('/hotel/<int:hid>/handicaproom', methods=['POST'])
@@ -221,14 +229,16 @@ def handleAllLogin():
         return BaseLogin().createLogin(request.json)
     return "Not reachable!"
 
-@app.route('/login/<lid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/login/<int:lid>', methods=['GET', 'PUT', 'DELETE'])
 def handleLoginbyId(lid):
     if request.method == 'GET':
         return BaseLogin().getLoginbyId(int(lid))
     elif request.method == 'DELETE':
         return BaseLogin().deleteLoginbyId(int(lid))
     elif request.method == 'PUT':
-        return BaseLogin().updateLoginbyId(request.json)
+        file = request.json
+        file["lid"] = int(lid)
+        return BaseLogin().updateLoginbyId(file)
     return "Not reachable!"
 
 @app.route('/auth', methods=["GET", "POST"])
@@ -300,14 +310,16 @@ def handleReserve():
         return BaseReserve().createReserve(request.json)
     return "Not reachable!"
 
-@app.route('/reserve/<reid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/reserve/<int:reid>', methods=['GET', 'PUT', 'DELETE'])
 def handleReservebyId(reid):
     if request.method == 'GET':
         return BaseReserve().getReservebyId(int(reid))
     elif request.method == 'DELETE':
         return BaseReserve().deleteReservebyId(int(reid))
     elif request.method == 'PUT':
-       return BaseReserve().updateReservebyId(request.json)
+        file = request.json
+        file["reid"] = int(reid)
+        return BaseReserve().updateReservebyId(file)
     return "Not reachable!"
 
 
@@ -319,14 +331,16 @@ def getAllRoom():
         return BaseRoom().createRoom(request.json)
     return "Not reachable!"
 
-@app.route('/room/<rid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/room/<int:rid>', methods=['GET', 'PUT', 'DELETE'])
 def getRoombyId(rid):
     if request.method == 'GET':
         return BaseRoom().getRoombyId(int(rid))
     elif request.method == 'DELETE':
         return BaseRoom().deleteRoombyId(int(rid))
     elif request.method == 'PUT':
-       return BaseRoom().updateRoombyId(request.json)
+        file = request.json
+        file["rid"] = int(rid)
+        return BaseRoom().updateRoombyId(file)
     return "Not reachable!"
 
 @app.route('/roomdescription', methods=['GET', 'POST'])
@@ -337,14 +351,16 @@ def handleRoomDescription():
         return BaseRoomDescription().createRoomDescription(request.json)
     return "Not reachable!"
 
-@app.route('/roomdescription/<rdid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/roomdescription/<int:rdid>', methods=['GET', 'PUT', 'DELETE'])
 def handleRoomDescriptionbyId(rdid):
     if request.method == 'GET':
         return BaseRoomDescription().getRoomDescriptionbyId(int(rdid))
     elif request.method == 'DELETE':
         return BaseRoomDescription().deleteRoomDescriptionbyId(int(rdid))
     elif request.method == 'PUT':
-       return BaseRoomDescription().updateRoomDescriptionbyId(request.json)
+        file = request.json
+        file["rdid"] = int(rdid)
+        return BaseRoomDescription().updateRoomDescriptionbyId(file)
     return "Not reachable!"
 
 @app.route('/roomunavailable', methods=['GET', 'POST'])
@@ -355,14 +371,16 @@ def getAllRoomUnavailable():
         return BaseRoomUnavailable().createRoomUnavailable(request.json)
     return "Not reachable!"
 
-@app.route('/roomunavailable/<ruid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/roomunavailable/<int:ruid>', methods=['GET', 'PUT', 'DELETE'])
 def getRoomUnavailablebyId(ruid):
     if request.method == 'GET':
         return BaseRoomUnavailable().getRoomUnavailablebyId(int(ruid))
     elif request.method == 'DELETE':
         return BaseRoomUnavailable().deleteRoomUnavailablebyId(int(ruid))
     elif request.method == 'PUT':
-       return BaseRoomUnavailable().updateRoomUnavailablebyId(request.json)
+        file = request.json
+        file["ruid"] = int(ruid)
+        return BaseRoomUnavailable().updateRoomUnavailablebyId(file)
     return "Not reachable!"
 
 if __name__ == "__main__":
