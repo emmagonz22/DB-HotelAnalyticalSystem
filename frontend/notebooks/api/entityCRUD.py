@@ -1,4 +1,5 @@
 import requests
+import json
 
 url = "https://db-hotel-analytics-systems-6a60248fdbac.herokuapp.com/"
 
@@ -60,7 +61,7 @@ def deleteLogin(id):
 
 def retrieveLogin(id):
     headers = {'Content-Type': 'application/json'}
-    data = requests.get(url + f"login", headers=headers)
+    data = json.loads(requests.get(url + f"login", headers=headers).text)
     for row in data:
         if row["eid"] == id:
             return row
