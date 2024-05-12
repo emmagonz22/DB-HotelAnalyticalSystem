@@ -7,7 +7,7 @@ class User(UserMixin):
         self.eid = eid
 
     def get_employee(self):
-        return BaseEmployee().getEmployeebyId(self.eid)
+        return BaseEmployee().getEmployeebyId(self.eid)[0].json
 
     def get_id(self):
         return self.eid

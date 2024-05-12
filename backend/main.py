@@ -243,7 +243,6 @@ def handleLoginbyId(lid):
 
 @app.route('/auth', methods=["GET", "POST"])
 def userLogin():    
-    print("Request JSON: ",  request.json)
     if request.method == 'POST':
         data = request.json
         print(data)
@@ -261,46 +260,46 @@ def userLogin():
             print("User exist:", user,"\n")
             login_user(user)
             print(user.is_authenticated)
-            return jsonify(detail="Login successful"), 200
+            employee_data =  user.get_employee()
+            return jsonify({'detail': "Login successful", 'eid': user.eid, 'lname': employee_data['lname'], 'position': employee_data['position']}), 200
         print("Invalid username or password")
         return jsonify({'status': 'Wrong username or password'}), 400
         
-    
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == POST:
+        data = request.json
 
+        login = {
+            'username': data.get('username'),
+            'password': data.get('password')
+        }
+        if not login['username'] or not login['password']:
+            return jsonify({'status': 'Invalid credentials'}), 400
+        ## Verify if username already exist
+
+        employee = {
+            'fname':  data.get('fname'),
+            'lname': data.get('lname'),
+            'position': data.get('position'),
+            'salary': data.get('salary'),
+            'age': data.get('age') 
+        }
+
+        ## VErify if empployee already exist??
+
+        if not employee['fname'] or not employee['lname'] or \
+           not employee['position'] or not employee['salary'] or not employee['age']:
+            return jsonify({'status': 'Invalid credentials'}), 400
+        ## Create Login
+        BaseLogin.createLogin(login)
+        ## Create employee
+        BaseEmployee.createEmployee(employee)
 @app.route('/signout', methods=["GET"])
 #@login_required
 def signout():
     logout_user()
     return redirect("login.ipynb")
-
-
-'''
-@app.route('/login/', methods=['GET', 'POST'])
-    def login():
-        
-        if request.method == "GET":
-            print("Rendering login template")
-            return render_template('login.html')
-        elif request.method == 'POST':
-            username: str = request.form['username'].lower()
-            password: str = request.form['password']
-
-            # sends user and pass to backend to be verified and logged in
-            sign_in_event = backend.sign_in(username=username,
-                                            password=password)
-            print("Signin USER: ", username)
-            if sign_in_event:
-                user = User(username=username)
-                login_user(user)
-
-                flash('Logged in successfully.')
-                return redirect(url_for("home"))
-            else:
-                flash('Wrong username or password. Please Try Again.')
-                return redirect(url_for('login'))
-        else:
-            return redirect(url_for('login'))
-'''
 
 @app.route('/reserve', methods=['GET', 'POST'])
 def handleReserve():
