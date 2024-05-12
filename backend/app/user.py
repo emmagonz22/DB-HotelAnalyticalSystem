@@ -21,6 +21,6 @@ class User(UserMixin):
         return BaseEmployee().getEmployeebyId(eid)
 
     def __str__(self):
-        return f'Connected Employee ID: {self.eid}'
+        return f'{self.eid}'
 
 

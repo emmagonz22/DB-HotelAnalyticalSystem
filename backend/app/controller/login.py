@@ -50,6 +50,6 @@ class BaseLogin:
         for index, user in enumerate(all_users):
             #print(user)
             if user.get('username') == username and user.get('password') == password:
-                return user
+                return user.get('eid')
         
         return None 

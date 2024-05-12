@@ -233,14 +233,12 @@ def handleLoginbyId(lid):
 
 @app.route('/auth', methods=["GET", "POST"])
 def userLogin():    
-    print("Request method: ", request.method)
     print("Request JSON: ",  request.json)
     if request.method == 'POST':
         data = request.json
         print(data)
         username = data.get('username')
         password = data.get('password')
-        print(data)
         #print(data.form['username'])
         #username = data.form['username']
         #password = data.form['password']
@@ -248,12 +246,11 @@ def userLogin():
             return jsonify({'status': 'error', 'message': 'Missing username or password'}), 400
 
         user = User(BaseLogin().verifyLogin(username, password))
-
-        if user:
-            print("User exist:", user)
+       
+        if user.eid is not None:
+            print("User exist:", user,"\n")
             login_user(user)
             print(user.is_authenticated)
-            #return jsonify({'status': 'success', 'username' : user.get('username'), 'lid': user.get('lid'), 'eid' : user.get('eid') })
             return jsonify(detail="Login successful"), 200
         print("Invalid username or password")
         return jsonify({'status': 'Wrong username or password'}), 400
