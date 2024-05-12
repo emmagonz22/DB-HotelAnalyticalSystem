@@ -3,7 +3,7 @@ import logging              # https://docs.python.org/3/library/logging.html
 from flask_login import LoginManager
 from .user import User
 
-from flask_cors import CORS
+#from flask_cors import CORS
 logging.basicConfig(level=logging.DEBUG)
 
 def create_app():
@@ -11,7 +11,7 @@ def create_app():
     # instance_relative_config is used to determine where the conguration files are stored, this is used for the local database files, configuration secrets, instance specific data
     app = Flask(__name__, instance_relative_config=True) 
     app.json.sort_keys = False
-    CORS(app, resources={r"/auth": {"origins": "*"}})
+    #CORS(app, resources={r"/auth": {"origins": "*"}})
     login_manager = LoginManager()
   
     # Configure LoginManager

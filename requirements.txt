@@ -7,12 +7,9 @@ openpyxl==3.1.2
 voila
 ipywidgets
 plotly==5.20.0
-bqplot 
-tornado
-nbconvert
 ipykernel
-dash
 vois
 ipyvuetify
 flask-login
 flask-cors
+matplotlib

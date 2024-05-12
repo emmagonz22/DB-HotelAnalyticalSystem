@@ -1,5 +1,5 @@
 from app import create_app
-from flask import request, jsonify, Flask, redirect, render_template, url_for, flash, send_file, render_template_string
+from flask import request, jsonify, Flask, redirect
 
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required, UserMixin
 from app.user import User
@@ -90,21 +90,21 @@ def getEmployeebyId(eid):
 
 
 @app.route('/most/revenue', methods=["POST"])
-@login_required
+#@login_required
 def getTopThreeTotalRevenue():
       if request.method == 'POST':
         return BaseGlobalStatistic().getTopThreeTotalRevenue(request.json)
       return "Not reachable!"
 
 @app.route('/paymentmethod', methods=["POST"])
-@login_required
+#@login_required
 def ggetpercentageByPaymentMethod():
       if request.method == 'POST':
         return BaseGlobalStatistic().getpercentageByPaymentMethod(request.json)
       return "Not reachable!"
       
 @app.route('/least/rooms', methods=["POST"])
-@login_required
+#@login_required
 def handlergetTopThreeLeastRooms():
 
     if request.method == 'POST':
@@ -113,7 +113,7 @@ def handlergetTopThreeLeastRooms():
     return "Not reachable!"
 
 @app.route('/most/capacity', methods=["POST"])
-@login_required
+#@login_required
 def getTopFiveHotelsMostCapacity():
     if request.method == "POST":
         return BaseGlobalStatistic().getTopFiveHotelsMostCapacity(request.json)
@@ -122,14 +122,14 @@ def getTopFiveHotelsMostCapacity():
 
 
 @app.route('/most/reservation', methods=["POST"])
-@login_required
+#@login_required
 def  getTopTenByHotelReservation():
       if request.method == 'POST':
         return BaseGlobalStatistic().getTopTenByHotelReservation(request.json)
       return "Not reachable!"
 
 @app.route('/most/profitmonth', methods=["POST"])
-@login_required
+#@login_required
 def getTopThreeMonthByChain():
       if request.method == 'POST':
         return BaseGlobalStatistic().getTopThreeMonthByChain(request.json)
@@ -157,7 +157,7 @@ def getHotelbyId(hid):
     return "Not reachable!"
 
 @app.route('/hotel/<int:hid>/handicaproom', methods=['POST'])
-@login_required
+#@login_required
 def handlerTopFiveRoomHandicap(hid):
 
     if request.method == 'POST':
@@ -166,14 +166,14 @@ def handlerTopFiveRoomHandicap(hid):
     return "Not reachable!"
 
 @app.route('/hotel/<int:hid>/leastreserve', methods=['POST'])
-@login_required
+#@login_required
 def handlerTopThreeLeastTimeUnavailableRoom(hid):
     if request.method == 'POST':
         return BaseLocalStatistic().obtainTopThreeLeastTimeUnavailableRoom(hid, request.json)
     return "Not reachable!"
     
 @app.route('/hotel/<int:hid>/mostcreditcard', methods=['POST'])
-@login_required
+#@login_required
 def handlerTopFiveMostCreditCard(hid):
 
     if request.method == "POST":
@@ -183,7 +183,7 @@ def handlerTopFiveMostCreditCard(hid):
 
 
 @app.route('/hotel/<int:hid>/highestpaid', methods=['POST'])
-@login_required
+#@login_required
 def handlerTopThreeHighestPaidRegularEmployee(hid):
 
     if request.method == "POST":
@@ -194,7 +194,7 @@ def handlerTopThreeHighestPaidRegularEmployee(hid):
 
 
 @app.route('/hotel/<int:hid>/mostdiscount', methods=['POST'])
-@login_required
+#@login_required
 def handlerTopFiveClientsMostDiscounts(hid):
 
     if request.method == "POST":
@@ -204,7 +204,7 @@ def handlerTopFiveClientsMostDiscounts(hid):
 
 
 @app.route('/hotel/<int:hid>/roomtype', methods=['POST'])
-@login_required
+#@login_required
 def handlerTotalReservationRoomType(hid):
     if request.method == "POST":
         return BaseLocalStatistic().obtainTotalReservationRoomType(hid, request.json)
@@ -213,7 +213,7 @@ def handlerTotalReservationRoomType(hid):
 
 
 @app.route('/hotel/<int:hid>/leastguests', methods=['POST'])
-@login_required
+#@login_required
 def handlerTopThreeReservedLeastGuestToCapacityRatio(hid):
     if request.method == "POST":
         return BaseLocalStatistic().obtainTopThreeRoomsReservedLeastGuestToCapacityRatio(hid, request.json)
@@ -268,7 +268,7 @@ def userLogin():
     
 
 @app.route('/signout', methods=["GET"])
-@login_required
+#@login_required
 def signout():
     logout_user()
     return redirect("login.ipynb")
