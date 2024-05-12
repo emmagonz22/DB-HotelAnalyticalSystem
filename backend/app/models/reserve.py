@@ -13,15 +13,16 @@ class ReserveDAO(BaseDAO):
             clid = json["clid"]
             payment = json["payment"]
             guests = json["guests"]
+            print(json)
 
-            if not (isinstance(reid, int) and isinstance(ruid, int) and isinstance(clid, int) and isinstance(total_cost, float) and isinstance(payment, str) and isinstance(guests, int)):
+            if not (isinstance(reid, int) and isinstance(ruid, int) and isinstance(clid, int) and isinstance(payment, str) and isinstance(guests, int)):
                 return False
             
             if not (payment == "cash" or payment == "check" or payment == "credit card" or payment == "debit card" or payment == "pear pay" or guests > 0):
                 return False
             
             cur = self.conn.cursor()
-            cur.execute("select rprice, (enddate - startdate) as days, extract(month from startdate) as month, springmkup, summermkup, fallmkup, wintermkup, memberyear, capacity from reserve natural inner join roomunavailable natural inner join room natural inner join client natural inner join hotel natural inner join chains natural inner join roomdescription where ruid = %s;", (ruid,))
+            cur.execute("select rprice, (enddate - startdate) as days, extract(month from startdate) as month, springmkup, summermkup, fallmkup, wintermkup, memberyear, capacity from roomunavailable natural inner join room natural inner join client natural inner join hotel natural inner join chains natural inner join roomdescription where ruid = %s and clid = %s;", (ruid, clid,))
 
             values = dict(zip(["rprice", "days", "month", "springmkup", "summermkup", "fallmkup", "wintermkup", "memberyear", "capacity"], cur.fetchone()))
             print(values)

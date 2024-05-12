@@ -1,5 +1,6 @@
 from .baseDAO import BaseDAO
 from psycopg2.errors import UniqueViolation
+from datetime import datetime
 class RoomUnavailableDAO(BaseDAO):
     def validateData(self, json, action):
         try:
@@ -16,6 +17,9 @@ class RoomUnavailableDAO(BaseDAO):
                 return False
 
             cur = self.conn.cursor()
+            cur.execute("select cast(%s as date) > cast(%s as date) as days", (startdate, enddate,))
+            if cur.fetchone()[0]:
+                return False
             if action == "CREATE":
                 cur.execute("SELECT * from roomunavailable where rid = %s and ((startdate BETWEEN %s AND %s) or (enddate BETWEEN %s AND %s) or (%s BETWEEN startdate AND enddate))", (rid, startdate, enddate, startdate, enddate, enddate,))
             elif action == "UPDATE":

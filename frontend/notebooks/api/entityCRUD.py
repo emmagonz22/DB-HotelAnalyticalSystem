@@ -99,3 +99,31 @@ def updateReserve(info, id):
 def deleteReserve(id):
     headers = {'Content-Type': 'application/json'}
     return requests.delete(url + f"reserve/{id}", headers=headers)
+
+
+# Room Description
+def createRoomDescription(info):
+    headers = {'Content-Type': 'application/json'}
+    return requests.post(url + "roomdescription", json=info, headers=headers)
+
+def updateRoomDescription(info, id):
+    headers = {'Content-Type': 'application/json'}
+    return requests.put(url + f"roomdescription/{id}", json=info, headers=headers)
+
+def deleteRoomDescription(id):
+    headers = {'Content-Type': 'application/json'}
+    return requests.delete(url + f"roomdescription/{id}", headers=headers)
+
+
+# Room Unavailable
+def createRoomUnavailable(info):
+    headers = {'Content-Type': 'application/json'}
+    return requests.post(url + "roomunavailable", json=info, headers=headers)
+
+def updateRoomUnavailable(info, id):
+    headers = {'Content-Type': 'application/json'}
+    return requests.put(url + f"roomunavailable/{id}", json=info, headers=headers)
+
+def deleteRoomUnavailable(id):
+    headers = {'Content-Type': 'application/json'}
+    return requests.delete(url + f"roomunavailable/{id}", headers=headers)

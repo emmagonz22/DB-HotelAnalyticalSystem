@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 
 
-#dotenv_path = os.path.abspath("backend/app/enviroment.env")
+# dotenv_path = os.path.abspath("backend/app/enviroment.env")
 dotenv_path = os.path.abspath("app/enviroment_prod.env")
 print(dotenv_path)
 load_dotenv(dotenv_path=dotenv_path)
