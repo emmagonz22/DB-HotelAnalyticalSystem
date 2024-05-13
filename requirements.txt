@@ -13,3 +13,4 @@ ipyvuetify
 flask-login
 flask-cors
 matplotlib
+pickleshare
