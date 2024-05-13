@@ -1,1 +1,1 @@
-web: cd frontend/notebooks && voila --port=$PORT --no-browser --Voila.ip=0.0.0.0 login.ipynb
+web: cd backend/app/views && voila --port=$PORT --no-browser --Voila.ip=0.0.0.0 login.ipynb
