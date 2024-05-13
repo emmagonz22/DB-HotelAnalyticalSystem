@@ -1,6 +1,6 @@
 import requests
 
-url = "http://127.0.0.1:5000/"
+url = "https://db-hotel-analytics-systems-6a60248fdbac.herokuapp.com/"
 
 def getIndexTest():
     return requests.get(url)
