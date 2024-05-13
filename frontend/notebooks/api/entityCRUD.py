@@ -31,6 +31,25 @@ def deleteHotel(id):
     headers = {'Content-Type': 'application/json'}
     return requests.delete(url + f"hotel/{id}", headers=headers)
 
+def getAllHotels():
+    headers = {'Content-Type': 'application/json'}
+    info = json.loads(requests.get(url + f"hotel", headers=headers).text)
+    result = set()
+    for row in info:
+        result.add(row["hid"])
+    return result
+
+def getHotelsbyChain(id):
+    headers = {'Content-Type': 'application/json'}
+    info = json.loads(requests.get(url + f"hotel/{id}", headers=headers).text)
+    chain = info['chid']
+    info = json.loads(requests.get(url + f"hotel", headers=headers).text)
+    result = set()
+    for row in info:
+        if int(row['chid']) == chain:
+            result.add(row["hid"])
+    return result
+
 
 # Employee
 def createEmployee(info):
@@ -66,6 +85,10 @@ def retrieveLogin(id):
         if row["eid"] == id:
             return row
     return ""
+
+def retrieveEmployee(id):
+    headers = {'Content-Type': 'application/json'}
+    return json.loads(requests.get(url + f"employee/{id}", headers=headers).text)
 
 
 # Room
