@@ -14,3 +14,8 @@ URI: postgres://vaccmbbtflaoyw:cec952ce84d6a3824ee8815c1784bab847d052cf2efa4e71f
 
 ## Hosted Rest API address (Heroku)
 Host (URL): https://db-hotel-analytics-systems-6a60248fdbac.herokuapp.com/
+
+
+
+## Hosted Frontend address (Heroku) - STORED IN FRONTEND BRANCH
+Host (URL): https://hotel-analytics-frontend-867bffd1b121.herokuapp.com/
