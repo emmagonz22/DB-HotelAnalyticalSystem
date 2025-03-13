@@ -61,7 +61,6 @@ The ETL (Extract, Transform, Load) pipeline handles data from multiple sources a
 - **SQLite**: Source database for some datasets
 - **Pandas**: Data manipulation and analysis
 - **Gunicorn**: WSGI HTTP server for production
-- **SQLAlchemy**: SQL toolkit and ORM
 
 ### Frontend
 - **Jupyter Notebook**: Interactive computing platform
